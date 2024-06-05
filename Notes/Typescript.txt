@@ -1,0 +1,212 @@
+Typescript - superset of js
+Base js syntax but typescript has some additional features and adds static typing to js
+function add(a,b){
+    return a+b;
+}
+const result =add(2,5);
+console.log(result);
+In this code we are not mentioning function datatype or passing number type,js is dynamically typed so it dynamically taken as number but typescript is
+statically typed,so we should mention ITS TYPE.
+
+And typescript will not run in browser we need to compile typescript into js
+during compilation typescript annotaions will be removed as js dont know anything about typescript annotations
+
+Types
+
+Primitives : number,string,boolean
+Complex types : arrays,objects
+Function types : parameters
+
+we mention let age:number;
+number is datatype,here we should not use capital N
+because it is Number Object
+
+Primitives
+let age:number;
+let username:string;
+let isteacher:boolean;
+
+if we want to use array like array of strings we can use
+let hobbies:string[];
+
+et age:number;
+age=2;
+let username:string;
+username='sam';
+let isteacher:boolean;
+isteacher=true;
+
+let hobbies:string[];
+hobbies=['Playing','Painting','Swimming'];
+let person;
+person={
+    name:'samyu', --(Object)
+    age:20
+};
+let person:any:-- if we use any means i dont want to
+specify any particular data type any data type is allowed
+let person:{
+}after semicolon is type defintion of object
+like let person:{
+name:string;
+age:number;
+};
+
+If we want array of objects we can write like this
+let person:{
+name:string;
+age:number;
+}[];
+
+
+Type Inference
+
+Type inference in TypeScript is the ability of 
+the compiler to automatically deduce the data 
+types of variables based on their initialization
+ values and usage context. This means that you 
+don't always have to explicitly specify the data 
+type of a variable; TypeScript can often figure
+ it out for you.
+
+
+Union type is a  type definition that allow more than one datatype to variable
+For example let course='maths'
+course=121
+sometimes course=121 is also correct coz courseid may store in course variable
+but if we try to do so it end up in error thats why we are using union
+ex :
+let course : string | number ='React';
+course =121;
+
+Assigning Type alias
+
+if there is same set of variables present inside object like
+let person:{
+name:string,
+age:number
+}
+let people:{
+name:string,
+age:number
+}[];
+both has same variables we can commonly write as
+type pm={
+name:string,
+age:number
+}
+then we can modify above code like let people:pm;
+let people:pm[];
+
+
+Functions and Types
+function add(a:number,b:number):number|string{
+return a+b;
+}
+here this is the (number|string) --> return type of function
+
+
+To copy existing array and paste it in new array we can use spread operator like
+function ins(array: any[],value:any){
+const newArray=[...array]
+}
+(...)->spread operator
+
+
+
+
+
+
+Imagine you have a function that adds two numbers together. Normally, you would write it like this:
+
+typescript
+Copy code
+function add(a: number, b: number): number {
+    return a + b;
+}
+This function works great for adding numbers, but what if you want to add strings or other types together? You'd have to write a separate function for each type.
+
+That's where generic functions come in. Instead of specifying a specific type for the parameters and return value, you can use a placeholder called a type parameter. Here's how you could write the same function using generics:
+
+function add<T>(a: T, b: T): T {
+    return a + b;
+}
+The <T> part declares that T is a type parameter. When you call the function, you specify the type you want to use for T. For example:
+
+let result1 = add(2, 3);          // result1 is 5 (numbers)
+let result2 = add("Hello, ", "world!");  // result2 is "Hello, world!" (strings)
+
+
+
+Classes and Typescript
+
+class Student{
+name:string;
+age:number;
+courses:string[]
+
+constructor(Name:string,Age:number,Courses:string[]){
+this.name=Name;
+this.age=Age;
+this.courses=Courses
+}
+enroll(cname:string){
+tthis.courses.push(cname);
+}
+}
+const student=new Student('Max,'12',['maths','scie']
+student.enroll('React');
+
+
+shortcut key to create class is
+constructor(
+public name:string;
+public age:number;
+public courses:string[]
+)
+{}
+
+
+Interface
+
+object type definitions
+interface Human{
+name:string;
+age:string;
+
+greet:() =>void;
+}
+
+important feature of interface is class can implement interface
+ex class Instructor implements Human{
+name:string;
+age:string;
+
+greet(){
+console.log('Hi');
+}
+}
+
+Another Example is
+
+interface Car {
+    make: string;
+    model: string;
+    year: number;
+    startEngine(): void;
+}
+
+// Now any object that has these properties and methods matches the Car interface
+let myCar: Car = {
+    make: "Toyota",
+    model: "Corolla",
+    year: 2022,
+    startEngine() {
+        console.log("Engine started!");
+    }
+};
+
+In simple terms, an interface in TypeScript is like a blueprint or a contract that defines the structure of an object. It specifies what properties and methods an object should have, but it doesn't provide the actual implementation.
+
+Imagine you're building a house. Before you start construction, you create a blueprint that outlines the layout, dimensions, and features of the house. Similarly, in TypeScript, you define an interface to outline the structure of an object.
+

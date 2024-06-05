@@ -1,0 +1,113 @@
+Testing:
+Testing in a project is a crucial process to ensure 
+that the software or system being developed meets
+the specified requirements and functions 
+correctly. It involves executing the software 
+with the intent of finding defects
+or verifying that it meets its requirements.
+
+Functionality Testing: Ensuring that basic arithmetic operations like addition, subtraction, multiplication, and division work correctly.
+User Interface Testing: Verifying that the user interface elements like buttons, input fields, and display areas behave as expected.
+Integration Testing: Testing the interactions between different components of the app, ensuring they work together seamlessly.
+Performance Testing: Checking how fast the app responds to user inputs and performs calculations, ensuring it meets performance requirements.
+Compatibility Testing: Testing the app on different devices and operating systems to ensure it works correctly across various platforms.
+
+Sample Testcases:
+Functionality Testing: Ensuring that basic arithmetic operations like addition, subtraction, multiplication, and division work correctly.
+User Interface Testing: Verifying that the user interface elements like buttons, input fields, and display areas behave as expected.
+Integration Testing: Testing the interactions between different components of the app, ensuring they work together seamlessly.
+Performance Testing: Checking how fast the app responds to user inputs and performs calculations, ensuring it meets performance requirements.
+Compatibility Testing: Testing the app on different devices and operating systems to ensure it works correctly across various platforms.
+
+Cypress - frontend automation testing tool
+
+Features - Automatic waiting,Debuggability,Supports multiple types of testing,Network traffic control,smart orcchesttration,flake detection(which helps to find unreliable test in Cypress Cloud)
+
+
+
+WebDriver is a tool for automating web browsers. It provides a programming interface to interact with web browsers in the same way that a human user would. WebDriver allows developers to write automated tests for web applications, enabling them to simulate user interactions such as clicking buttons, filling out forms, and navigating between pages.
+
+Cypress is a automation framework to use the web application
+Mocha is a test framework to build automation framework
+Describes or context takes two arguments -->test group name,callback function
+Context and Describe are same 
+it or specify also takes two arguments -->test case name,callback function
+it or specify are same 
+cy.get('form').should('exist') chain commands where should exist is assertion that dom elemnet form should present in file 
+Expert is also assert(verification) which is come form Chai framework 
+ci/cd => Continous Integeration/Continous deployment
+in jenkins framework we cannot have access to open test runner we have to give all the instructions in command prompt like node_modules/.bin/cypress run --headed browser chrome --spec 'cypress/integeration/fun.cy.js'
+In Cypress, "headless" mode refers to running tests without a visible browser UI. 
+On the other hand, "headed" mode, sometimes referred to as "headed" or "headed mode," is the default mode in Cypress where the browser's graphical interface is visible during test execution. 
+cy->crypto
+
+Locators => identifiers of web elements 
+cypress-xpath ->external plugin to locate elements 
+we use css selectorsand jquery selectors
+cy.get =>by default takes only css selectors 
+cy.get('#name')->id
+cy.get('.name')->class
+cy.get('[id='name']')->attribute attributr means inside input tag id class are attribute and their id=name where name is value of attribute\
+Tag name and attributr value
+cy.get('input[id='name']')	
+type command to type something on field
+xpath external plugin using instead selectors 
+cy.xpath('//input[@id="search"]')
+here // means anywhere in document 
+if we want to search current we can use .// like for ex
+cy.xpath('//div[@id='name']').xpath('.//div').should('have.length',6)
+if we use xpath('./div') ->one slash means top level div tags
+cy.get(locator,options)
+here optuons are option-default description,timeout etc
+cy.get('button').eq(1).should('conatain','Open')
+within block is inside get block
+cy.get('#amr').within(()=>{
+cy.get('button')
+})
+})
+find also find elements based on the locator or selector we provide 
+we cannout use ndividually find we should use get method and then find
+cypress is asynchronous programming it will not wait for response.inmeantime it will do next step
+Promise Handling in cypress
+all commands in cypress are Promises
+Asserion-validation of step
+.CLICK()
+.click(options)
+.dblclick()
+.rightclick()
+.type(text,options)
+.clear(options)
+check()
+uncheck()for radio buttons and checkbox
+.select() for dropdown list
+trigger a event in dom element=>.trigger(eventname)eventname like mouseover ,mouseup etc 
+.invoke using .show()
+
+iterate web elements
+each command ->for loop
+wrap command -wrap jquery elements into Cypress Objects 
+.and('include','/courses')
+cy.go('back')pr'forward' in browser history
+
+cypress does not allow us to send empty string
+we can turn off the uncaught exception by writing some code to turn off exception in support file 
+
+Fixtures : In Cypress, fixtures are a way to provide external static data to your tests. 
+
+Cypress custom commands
+cypress.commands.add -add new command
+cypress.commands.overwrite - overwrite existing commands 
+Data driven Testing - Data-driven testing (DDT) is a testing methodology in which test cases are executed using multiple sets of input data. Instead of writing separate test cases for each combination of inputs, data-driven testing allows testers to parameterize their test cases and run them with various datasets.
+
+In simpler terms, data-driven testing separates test data from test logic. Test cases are written once and executed multiple times with different sets of input data. 
+
+stateless - client data not stored on server
+
+
+
+Cypress with cucumber
+
+Feature file step definition file
+Before Each -  Background
+Scenario
+Given,When,Then,And

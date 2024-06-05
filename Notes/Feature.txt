@@ -1,0 +1,217 @@
+Feature:  Pms Module Testcases
+
+Scenario: Valid Goal Type  Form Submission
+    Given enter the Performace Master Form
+    When Fill Input Fields
+    Then Checks pop-up whether data is submitted or not
+
+Scenario: Max length of Data in Goal Type
+    Given enter the Performace Master Form
+    When Enter Input fields
+    Then Checks the length of GoalType
+
+Scenario: Submit form without Goal Description
+    Given enter the Performace Master Form
+    When Enter the Input fields
+    Then Checks the data is submitted
+
+Scenario: Invalid Form Submission
+    Given enter the Performace Master Form
+    When Empty the Input fields
+    Then Invalid Submission
+
+Scenario: Valid Success Measure Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in Success Measure
+    Then Checks data is Submitted
+
+Scenario: Check Add Button in Success Measure Detail
+Given enter the Performace Master Form
+When Fill the Fields in the Success Measure
+Then Check Add Button
+
+Scenario: InValid Success Measure Form Submission
+    Given enter the Performace Master Form
+    When Empty the Fields in Success Measure
+    Then Checks data is Submitted or not
+
+Scenario: Valid Project Manager Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in the Project Manager
+    Then Check Data is Submitted
+
+Scenario: Invalid Project Manager Form Submission
+    Given enter the Performace Master Form
+    When Empty the Fieldss in the Project Manager
+    Then Check Data is Submitted or not
+
+Scenario: Valid Target Type Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in the Target Type Form
+    Then Check the Data is Submitted
+
+Scenario: Already Existing Target Type Name
+Given enter the Performace Master Form
+When Fill the Fields in  Target Type Form
+Then Check whether the Target Name Already Exists
+
+Scenario: Valid Target Type Form Submission With Adding Target Type
+    Given enter the Performace Master Form
+    When Fill the Fields in the Target Type Form With Adding Target Type
+    Then Check Data Submits
+
+Scenario: Inalid Target Type Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in  TargetType Form
+    Then Check the Data is Submitted or not
+
+Scenario: Check Delete Button
+    Given enter the Performace Master Form
+    When Fill the Field in  TargetType Form
+    Then Check Delete Button Works
+
+Scenario: Check Data Deleted Successfully
+    Given enter the Performace Master Form
+    When Fill All the Fields in  TargetType Form
+    Then Check Data Deleted Successfully
+
+Scenario: Valid Competency Bank Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in the Competency Bank Form
+    Then Check the Data is Submitted
+
+Scenario: Competency Name Already Exists
+    Given enter the Performace Master Form
+    When Fill the Field in the Competency Bank Form
+    Then Check whether the Competency Name Already Exists Pop-up
+
+Scenario: Invalid Competency Bank Form Submission
+    Given enter the Performace Master Form
+    When Empty the Fields in the Competency Bank Form
+    Then Check the Data is Submitted or not
+
+Scenario: Valid Competency Bank Form Submission With Adding Competency Type
+    Given enter the Performace Master Form
+    When Fill the Fields in the Competency Bank Form With Adding Competency Type
+    Then Check whether the Data is Submitted or not
+
+Scenario: Check Back Button in Competency Type Form
+    Given enter the Performace Master Form
+    When Fill the Fields in the Competency Bank Form With Adding Competency Types
+    Then Check Back Button navigates again to Competency Bank Form
+
+Scenario: Valid Goal Bank Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields in the Goal Bank Form
+    Then Check the Data is Submitted in Goal Bank Form
+
+Scenario: Invalid Goal Bank Form Submission
+    Given enter the Performace Master Form
+    When Empty the Fields in the Goal Bank Form
+    Then Check the Empty Data is Submitted in Goal Bank Form
+
+
+Scenario: Valid Exclusion Form Submission
+    Given enter the Performace Master Form
+    When Fill the Fields 
+    Then Check the Data 
+
+ Scenario: Without Selecting Employee in Exclusion Form 
+    Given enter the Performace Master Form
+    When Fill the Appraisal and Performance Fields 
+    Then Check Data Submitted
+
+Scenario: Valid Inclusion Form Submission
+    Given enter the Performace Master Form
+    When Fill Inclusion Form
+    Then Check the Datas
+
+Scenario: Valid Coach Form Submission
+    Given enter the Performace Master Form
+    When Fill Coach Form
+    Then Checkk the Data Sumitted
+
+Scenario: Valid Coach Form Submission with Manual Details
+    Given enter the Performace Master Form
+    When Fill Coach Form manually
+    Then Checkk the Data Sumitted or not
+
+Scenario: Invalid Coach Form Submission
+    Given enter the Performace Master Form
+    When Empty Coach Form Input Fields
+    Then Checkk the Data Submission
+
+Scenario: Coaching Expertise Already Exists
+Given enter the Performace Master Form
+When Fill all the  Coach Form Input Fields
+Then Checkk the Data Submissions
+
+Scenario: Valid Questionanaire Form Submission
+Given enter the Performace Master Form
+When Fill all the  Questionanaire Form Input Fields
+Then Ensure Data Submitted or not
+
+Scenario: Invalid Questionanaire Form Submission
+Given enter the Performace Master Form
+When Empty all the  Questionanaire Form Input Fields
+Then Ensure Data Submission
+
+Scenario: Adding Without Level in  Questionanaire Form
+Given enter the Performace Master Form
+When Click Add Button and adding without level
+Then Ensure it works
+
+Scenario: Check Add Button
+Given enter the Performace Master Form
+When Click Add Button
+Then Ensure it works or not
+
+Scenario: Check Edit Button
+Given enter the Performace Master Form
+When Click Edit Button
+Then Ensure Data Edited or not
+
+Scenario: Check Delete Button
+Given enter the Performace Master Form
+When Click Delete Button
+Then Ensure Data Deleted or not
+
+Scenario: Valid Career Aspiration Form
+    Given enter the career aspiration page
+    When Fill career details form
+    Then valid submission
+
+Scenario: Invalid Career Aspiration Form
+    Given enter the career aspiration page
+    When Fill career details form
+    Then valid submission
+
+Scenario: Valid Goal Setting Form
+    Given enter the Goal Setting Form
+    When Fill Goal details form
+    Then Goal valid submission
+
+Scenario: Invalid Goal Setting Form
+    Given enter the Goal Setting Form
+    When Empty Goal details form
+    Then Goal valid submission or not
+
+Scenario: Check Target Date
+    Given enter the Goal Setting Form
+    When Check Target Date
+    Then Error Pop-up
+
+Scenario: Check Edit Goal
+    Given enter the Goal Setting Form
+    When Check Edit Goal
+    Then Check Data Edited
+
+Scenario: Check Delete Goal
+    Given enter the Goal Setting Form
+    When Check Delete Goal
+    Then Check Data Deleted
+
+Scenario: Valid Measurable Goal Form 
+    Given enter the Goal Setting Form
+    When Check qunatitative Target
+    Then  Pop-up Success

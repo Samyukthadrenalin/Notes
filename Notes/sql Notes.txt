@@ -1,0 +1,555 @@
+Complicated method to create new table from existing table but not actually new table ,it gives output as new table  
+-------------------------------------------------------------------------------------------------------------------
+
+select Department from 
+(select Department,count(*) as NumberofDepartments from tblEmployee
+group by Department) as newTable
+
+Creation of new table using existing table 
+-----------------------------------------
+select distinct department ,'' as DepartmentHead into tblDepartment from tblEmployee -it will create new table tblDepartment of two columns department(varchar(19),null)same as in tblemployee  and departmenthead(varchar(1),not null)
+if we want n varchar we have to add capital N after , in above query 
+
+Conversion of varchar(1)
+--------------------------------
+step 1 : drop the already existing table
+step 2 : select distinct department ,convert(varchar(20),'') as DepartmentHead into tblDepartment from tblEmployee
+drop table tblDepartment
+
+Creating new table Tbldepartment2
+---------------------------------
+
+select Department as NumberofDepartments into tblDepartment2 from 
+(select Department,count(*) as NumberPerDepartment from tblEmployee
+group by Department) as newTable
+
+Joining Three table using inner join
+------------------------------------
+
+select * from tblDepartment join tblEmployee on tblDepartment.department = tblEmployee.Department join tblTransaction on tblTransaction.EmployeeNumber=tblEmployee.EmployeeNumber;
+
+if we want to make empty string to display as null we can use this query
+-----------------------------------------------------------------------
+
+NULLIF FUNCTION - SELECT 
+    NULLIF(EmployeeMiddleName, '') AS EmployeeMiddleName
+FROM 
+    tblEmployee;
+
+Adding departmentHead using Option Edit Top 200 rows
+
+Displaying department,head and sum of transactions in department
+----------------------------------------------------------------
+
+select tblDepartment.department ,DepartmentHead,sum(Amount) as SumOfAmount from  tblDepartment LEFT join tblEmployee 
+on tblDepartment.department = tblEmployee.Department LEFT join tblTransaction 
+on tblTransaction.EmployeeNumber=tblEmployee.EmployeeNumber
+group by tblDepartment.department,DepartmentHead;
+
+
+
+select E.EmployeeNumber as ENumber,E.EmployeeFirstName,E.EmployeeLastName ,T.EmployeeNumber as TNumber,
+SUM(T.Amount) as TotalAmount
+from tblEmployee as E
+left join tblTransaction as T
+ON E.EmployeeNumber=T.EmployeeNumber
+GROUP BY E.EmployeeNumber,T.EmployeeNumber,E.EmployeeFirstName,E.EmployeeLastName
+ORDER BY E.EmployeeNumber,T.EmployeeNumber,E.EmployeeFirstName,E.EmployeeLastName
+
+
+WANT TO CORRECT MISSING DATA
+WE CAN MAKE SECOND TABLE COMMON ID AS NULL
+
+DELETING DATA
+-------------------
+
+BEGIN TRANSACTION
+
+SELECT COUNT(*) FROM tblTransaction
+DELETE tblTransaction
+from tblEmployee as E
+right join tblTransaction as T
+ON E.EmployeeNumber=T.EmployeeNumber
+WHERE E.EmployeeNumber IS NULL
+SELECT COUNT(*) FROM tblTransaction
+ROLLBACK TRANSACTION
+
+
+SELECT TNumber 
+from(
+select E.EmployeeNumber as ENumber,E.EmployeeFirstName,E.EmployeeLastName ,T.EmployeeNumber as TNumber,
+SUM(T.Amount) as TotalAmount
+from tblEmployee as E
+right join tblTransaction as T
+ON E.EmployeeNumber=T.EmployeeNumber
+GROUP BY E.EmployeeNumber,T.EmployeeNumber,E.EmployeeFirstName,E.EmployeeLastName) as newtable
+where Enumber is NULL
+ORDER BY ENumber,TNumber,EmployeeFirstName,EmployeeLastName
+
+------------------------------------------------------------------------------
+select E.EmployeeNumber as ENumber,E.EmployeeFirstName,E.EmployeeLastName ,T.EmployeeNumber as TNumber,
+SUM(T.Amount) as TotalAmount
+from tblEmployee as E
+right join tblTransaction as T
+ON E.EmployeeNumber=T.EmployeeNumber
+GROUP BY E.EmployeeNumber,T.EmployeeNumber,E.EmployeeFirstName,E.EmployeeLastName) as newtable
+where Enumber is NULL
+)
+select count(*) from tblTransaction
+rollback transaction
+select count(*) from tblTransaction
+
+----------------------------------------------------------------------------------------
+updating data
+-------------
+select * from tblEmployee where EmployeeNumber=125
+select * from tblTransaction where EmployeeNumber=3
+select * from tblTransaction where EmployeeNumber=125
+begin tran
+select * from tblTransaction where EmployeeNumber=125
+update tblTransaction
+set EmployeeNumber=125
+from tblTransaction
+where EmployeeNumber=3
+select * from tblTransaction where EmployeeNumber=125
+rollback tran
+select * from tblTransaction where EmployeeNumber=125
+
+VIEW - TO STORE SELECT STATEMENTS FOR FUTURE USE
+TRIGGERS - AUTOMATIC PIECE OF CODE THAT CAN BE RUN WHEN YOU INSERT,UPDATE,DELETE DATA
+
+CONSTRAINTS -- NULL,NOT NULL,UNIQUE,CHECK,DEFAULT,PRIMARY AND FOREIGN KEY 
+
+
+unique constraint
+---------------------
+alter table tblTransaction
+add constraint unqTransaction UNIQUE (Amount, DateOfTransaction, EmployeeNumber)
+
+delete from tblTransaction
+where EmployeeNumber = 987
+
+insert into tblTransaction
+VALUES (1,'2015-01-01', 131)
+insert into tblTransaction
+VALUES (1,'2015-01-01', 131)
+
+alter table tblTransaction
+Drop constraint unqTransaction
+create table tblTransaction2
+(Amount smallmoney not null,
+DateOfTransaction smalldatetime not null,
+EmployeeNumber int not null,
+CONSTRAINT unqTransaction2 UNIQUE (Amount,DateOfTransaction,EmployeeNumber))
+drop table tblTransaction2
+
+if we use unique constraint to any column then the column should be not null because may be so many columns will have null values ,then unique constraint will not allow more than one null
+
+--------------------------------------------------------------------------------------------------------------------
+
+default constraint
+-----------------------------------------------------------------------------
+BASIC SYNTAX - ALTER TABLE Persons
+ADD CONSTRAINT df_City
+DEFAULT 'Sandnes' FOR City;
+
+CREATE TABLE Orders (
+    ID int NOT NULL,
+    OrderNumber int NOT NULL,
+    OrderDate date DEFAULT GETDATE()
+);
+
+
+CHECK CONSTRAINT
+-------------------------------------------------------------------------------
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int CHECK (Age>=18)
+);
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255),
+    CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+);
+
+SURROGATE KEY
+---------------------------
+
+A surrogate key is a unique identifier for each row in a database table that is generated specifically for that purpose, rather than being derived from the data itself. It's typically an auto-incrementing integer or some other system-generated value.
+
+In simple terms, think of it as a special ID number assigned to each row in a database table, similar to how students might be assigned a roll number in a school. It doesn't have any intrinsic meaning or relationship to the data itself; its sole purpose is to uniquely identify each row in the table. This makes it easier and more efficient to manage and reference the data, especially in large databases with complex relationships.
+
+IDENTITY - AUTOMATE NUMBERS FOR NEW ROW
+
+create table tblEmployee2
+(EmployeeNumber int CONSTRAINT PK_tblEmployee2 PRIMARY KEY IDENTITY(1,1),
+EmployeeName nvarchar(20))
+
+If we give identity(1,1) to any column we cannot add manually value to that column if we try to add,it will give error
+To resolve this - SET IDENTITY_INSERT tblEmployee2 ON -use this
+------------------------------------------------------------------------------------------------------
+@@IDENTITY and SCOPE_IDENTITY() 
+
+@@IDENTITY and SCOPE_IDENTITY() are both used to retrieve the last identity value generated in a table in SQL Server after an insert operation. However, there are some differences between them:
+
+@@IDENTITY: This function returns the last identity value generated for any table in the current session, regardless of the scope or context in which it was generated. It may not always return the identity value generated by the same INSERT statement if triggers or other processes insert into other tables with identity columns within the same session.
+
+SCOPE_IDENTITY(): This function returns the last identity value generated for any table within the current scope or context, which typically means the identity value generated by the most recent INSERT statement executed within the same scope. It is more reliable in scenarios where there are triggers or multiple INSERT statements within a session, as it only returns the identity value from the same scope
+
+IDENT_CURRENT-last identified value in mentioned table
+select IDENT_CURRENT('dbo.tblEmployee2')
+
+FOREIGN KEY
+----------------------------------
+
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID)
+    REFERENCES Persons(PersonID)
+);
+
+
+CASCADE
+---------------------------------------------
+In the context of databases, "cascade" refers to a feature that automatically applies an action to related data when a specified operation is performed on the primary data. The most common usage of cascade is in the context of referential integrity constraints, such as foreign key constraints.
+
+Here are the common types of cascade actions:
+
+Cascade Delete: When a record in the parent table (referenced by a foreign key) is deleted, all related records in the child table (referencing the foreign key) are also automatically deleted. This ensures that there are no orphaned records in the child table.
+
+Cascade Update: When a primary key value in the parent table is updated, all corresponding foreign key values in the child table are also automatically updated to maintain referential integrity.
+
+These cascade actions can be specified when defining foreign key constraints in a database schema. They help maintain the integrity of the data by ensuring that related data is updated or deleted consistently when changes are made to primary key values. However, they should be used carefully to avoid unintended data loss or inconsistencies.
+
+ON DELETE NO ACTION
+--------------------------------------
+
+In SQL, the ON DELETE NO ACTION clause is used when defining a foreign key constraint to specify that no action should be taken if a record in the parent table is deleted and there are still related records in the child table. This means that the database engine will prevent the deletion of the parent record if it has dependent child record
+
+VIEWS
+----------------------------
+
+a view is a virtual table based on the result-set of an SQL statement.
+
+A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+
+select 1
+go
+create view ViewByDepartment as		
+select D.Department, T.EmployeeNumber, T.DateOfTransaction, T.Amount as TotalAmount
+from tblDepartment as D
+left join tblEmployee as E
+on D.Department = E.Department
+left join tblTransaction as T
+on E.EmployeeNumber = T.EmployeeNumber
+where T.EmployeeNumber between 120 and 139
+--order by D.Department, T.EmployeeNumber
+go
+select * from ViewByDepartment
+select 2
+go
+create view viewsummary as 
+select D.Department, T.EmployeeNumber as EmpNum, sum(T.Amount) as TotalAmount
+from tblDepartment as D
+left join tblEmployee as E
+on D.Department = E.Department
+left join tblTransaction as T
+on E.EmployeeNumber = T.EmployeeNumber
+group by D.Department, T.EmployeeNumber
+--order by D.Department, T.EmployeeNumber
+go
+select * from viewsummary
+
+if we want to check whether particular view esists or not 
+we can check using this query brcause sys.views will store all the views of db
+
+SELECT * FROM sys.views where name='ViewByDepartment'  
+if it is empty then the view is not existed
+
+if exists(select * from INFORMATION_SCHEMA.VIEWS
+where [TABLE_NAME] = 'ViewByDepartment' and [TABLE_SCHEMA] = 'dbo')
+   drop view dbo.ViewByDepartment
+go
+
+CREATE view [dbo].[ViewByDepartment] as 
+select D.Department, T.EmployeeNumber, T.DateOfTransaction, T.Amount as TotalAmount
+from tblDepartment as D
+left join tblEmployee as E
+on D.Department = E.Department
+left join tblTransaction as T
+on E.EmployeeNumber = T.EmployeeNumber
+where T.EmployeeNumber between 120 and 139
+--order by D.Department, T.EmployeeNumber
+
+GO
+
+select * from sys.syscomments as s
+inner join sys.views as v on s.id=v.object_id
+
+VIEWS - DELETING IS EASY WHEN VIEW IS BASED ON ONE TABLE AND IF IT IS BASED ON MORE THAN ONE TABLW WE USE TRIGGERS
+SEEK AND CAN 
+In SQL Server, "seek" and "scan" are terms used to describe different types of access methods that the query optimizer uses to retrieve data from tables or indexes.
+
+Seek:
+
+A seek operation occurs when the query optimizer can use an index to directly locate the rows that satisfy the search criteria specified in the query.
+It is an efficient way to access data because it involves directly navigating to the desired rows using index keys.
+Seeks are typically used when there are appropriate indexes available on the columns being searched and when the search criteria are selective enough to benefit from index usage.
+Scan:
+
+A scan operation occurs when the query optimizer needs to examine every row in a table or index to find the data that satisfies the search criteria.
+It is less efficient than a seek because it involves reading and evaluating every row, even those that do not match the search criteria.
+Scans are typically used when there are no suitable indexes available or when the search criteria are not selective enough to benefit from index usage.
+In summary, "seek" and "scan" refer to different methods of accessing data in SQL Server. Seeks are preferred over scans for their efficiency, especially when dealing with large datasets and when appropriate indexes are in place to support them.
+
+STORED PROCEDURES
+AGGREGATE FUNCTIONS,LEARN HOW TO WRITE FUNCTIONS
+VIEWS
+FUNCTION
+IF ELSE WHILE LOOP
+BASIC SELECT INSERT QUERIES
+JOINS
+
+
+INTERCEPT AND EXPECT CALUSE
+
+INTERCEPT GIVES COMMON BETWEEN TWO TABLES
+EXCEPT WILL RETURN THE OUTPUT OF FIRST TABLE AND NOT THE SECOND SELECT STATEMENT]
+
+
+CASE STATMENT LIKE IF AND ELSE STATEMENT 
+
+BASIC SYNTAX - SELECT CustomerName, Age,
+CASE
+    WHEN Age> 22 THEN 'The Age is greater than 22'
+    WHEN Age = 21 THEN 'The Age is 21'
+    ELSE 'The Age is over 30'
+END AS QuantityText
+FROM Customer;
+
+ISNULL AND Coalesce
+FOR REPLACING NULL VALUES
+ISNULL - 2 PARAMETERS
+COALESCE - MULTIPLE PARAMETERS
+
+
+MERGE STATEMENT - TARGET TABLE,SOURCE TABLE
+
+BASIC SYNTAX  -  MERGE INTO TRANSACTION AS T USING TRANSACTIONNEW AS U
+ON T.EM=S.EM,T.NAME=S.NAME
+WHEN MATCHED UPDATE SET AMOUNT=S.AM+T.AM
+WHEN NOT MATCHED
+INSERT([EM],[NAME],[AM])VALUES(T.EM,NAME,AM)
+------------------------------------------------------------------------------------
+STORED PROCEDURE OR SYSTEM PROCEDURE
+---------------
+
+DIFFERENCE BETWEEN VIEWS AND PROCEDURE
+
+VIEW - CREATE VIEW VIEWEMP AS
+SELECT * FROM EMPLOYEES;
+
+PROCEDURE - CREATE PROC PROCEMP AS
+BEGIN
+SELECT * FROM EMPLOYEES
+END
+EXEC PROCEMP - TO EXECUTE PROCEDURE 
+IN PROCEDURE BEGIN AND END IS COMPULSORY
+
+EVEN IF WE DROP THE PROCEDURE IT WILL STILL PRESENT IN VIEWS, SO YOU HAVE TO DELETE BOTH VIEWS AND PROCEDURES IF YOU WANT TO DELETE PROCEDURE 
+
+IF WE WANT TO RETRIEVE SPECIFIC ROW IN TABLE USING PROCEDURE
+
+
+CREATE PROC EMPROC(@EMPNUM INT) AS
+BEGIN
+IF EXISTS(SELECT* FROM TBLEMPLOYEE WHERE EMPNUM = @EMPNUM)
+BEGIN
+SELECT EMPNUM,EMPNAME,AMOUNT FROM TBLEMPLOYEE
+WHERE EMPNUM=@EMPNUM
+END
+EXEC EMPROC 223
+
+MULTIPLE ARGUMENTS
+--------------------------------------------
+EMTS WE USE 
+EMPNUMFROM,EMPNUMTO
+IN SELECT WE USE BRTWEEN EMPFROM TO EMPNUMTO
+
+WE CAN COUNTM THE ROWS USING @@ROWCOUNT FUNCTION
+@NOOFROWS OUTPUT
+SET @NOOFROWS = @@ROWCOUNT
+
+
+RETURN 0 -SUCCESS
+RETURN 1 - FAILURE
+If this was a stored procedure, what would this indicate?-PROCEDURE FINISHED WITH SUCCESS
+TRY/CATCH - BEGIN TRY,END TRY
+BEGIN CATCH,END CATCH
+
+TO SPECIFY WHAT ERROR ENCOUNTERED WE CAN USE ERROR MESSAGE() TO DISPLAY IN OUTPUT
+
+ERROR SEVERITY -(0-10)FOR INFORMATION
+16-DEFAULT SQL SERVER LOG OR WINDOWS AUTHENTICATION LOG
+RAISEERROR - Generates an error message and initiates error processing for the session. RAISERROR can either 
+reference a user-defined message stored in the sys.messages catalog view, or build a message dynamically.
+
+PRINT - PRINT msg_str | @local_variable | string_expr
+
+In SQL Server, both PRINT and PRINT N are used to display messages or information to the user. The difference between them lies in how they handle string literals.
+
+PRINT:
+The PRINT statement is used to display messages that are non-Unicode strings.
+It does not support Unicode strings, meaning it cannot display characters from languages such as Chinese, Japanese, or Arabic.
+It is suitable for displaying messages in languages that use the Latin alphabet (e.g., English, French, Spanish).
+Example:
+PRINT 'This is a non-Unicode message.';
+PRINT N:
+The PRINT N statement is used to display messages that are Unicode strings.
+It supports Unicode strings, allowing you to display characters from various languages.
+You prepend the string literal with the letter 'N' to indicate that it is a Unicode string.
+Example
+PRINT N'This is a Unicode message.';
+In summary, if you need to display messages containing characters from languages other than English or messages 
+with special characters, you should use PRINT N. Otherwise, PRINT can be used for displaying standard messages.
+
+ERROR SEVERITY 20 -FATAL ERROR(SERIOUS)
+
+OVER CLAUSE
+
+SELECT T.EmployeeNumber,YEAR(T.AttendanceMonth) AS YEARS,SUM(T.NumberAttendance) OVER() AS TOT,CONVERT(DECIMAL(18,7),T.NumberAttendance)/SUM(T.NumberAttendance) OVER() *100   FROM tblEmployee
+AS E JOIN tblAttendance AS T ON E.EmployeeNumber=T.EmployeeNumber
+
+ORDER  BY  T.EmployeeNumber,YEAR(T.AttendanceMonth)
+
+
+OVER(PARTION BY,ORDER BY)
+PARTITION BY DEFINES THE RANGE OR RULE HOW MANY ROWS WANT TO TAKE
+
+
+ROWS BETWEEN PRECEDING AND FOLLOWING 
+UNBOUNDED PRECEDING – All rows before the current row.
+n PRECEDING – n rows before the current row.
+CURRENT ROW – Just the current row.
+n FOLLOWING – n rows after the current row.
+UNBOUNDED FOLLOWING – All rows after the current row.
+
+
+Duplicate tables or rows
+
+select 8 from tbl union all select 8 from tbl
+
+we cannot use this RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING
+becauuse  it's got to be 1 ROW; RANGE can only be used with UNBOUNDED and CURRENT ROW
+
+RANKING FUNCTIONS 
+---------------------------------------------------------------------------------------
+RANK - RANK ( ) OVER ( [ partition_by_clause ] order_by_clause )
+In SQL, the RANK and DENSE_RANK functions are used to assign rankings to rows in a dataset based on specified criteria. 
+The main difference between RANK and DENSE_RANK lies in how they handle tied rankings.
+RANK: The RANK function assigns a unique rank to each distinct row in the result set. If rows tie for a rank,
+ the next row will receive a rank that skips the tied ranks, leaving gaps in subsequent ranks.
+DENSE_RANK: On the other hand, the DENSE_RANK function also assigns ranks based on criteria
+ but does not leave gaps between ranks in case of tied rows. This means that if there are ties, the next rank will not skip any numbers.
+((if two items are tied for second place, the next item in RANK will be 4th, but in DENSE_RANK will be 3rd.))
+
+ROW_NUMBER and RANK are similar. ROW_NUMBER numbers all rows sequentially (for example 1, 2, 3, 4, 5). 
+RANK provides the same numeric value for ties (for example 1, 2, 2, 4, 5).
+ROW_NUMBER SYNTAX - ROW_NUMBER ( )   
+    OVER ( [ PARTITION BY value_expression , ... [ n ] ] order_by_clause )
+
+
+NTILE - Distributes the rows in an ordered partition into a specified number of groups. The groups are numbered, starting at one. 
+For each row, NTILE returns the number of the group to which the row belongs.
+SYNTAX - NTILE (integer_expression) OVER ( [ <partition_by_clause> ] < order_by_clause > )
+
+NEW ANALYTIC FUNCTIONS
+-----------------------------------------------------------------------------------------------
+The FIRST_VALUE and LAST_VALUE functions in SQL are powerful window functions that allow you to retrieve the first and last values in an ordered
+set of values based on specified criteria.
+ Here is a summary of their key features based on the provided sources:
+FIRST_VALUE Function: This function returns the first value in an ordered set of values. It is used to retrieve the initial value in a sorted list. 
+The basic syntax for the FIRST_VALUE function is:
+FIRST_VALUE(expression) OVER ( [PARTITION BY partition_expression] ORDER BY sort_expression [ASC DESC]
+
+LAST_VALUE Function: The LAST_VALUE function, on the other hand, returns the last value in an ordered set of values.
+ It is employed to extract the final value in a sorted list. The syntax for the LAST_VALUE function is similar to FIRST_VALUE:
+LAST_VALUE(expression) OVER ( [PARTITION BY partition_expression] ORDER BY sort_expression [ASC DESC]
+
+
+LAG AND LEAD FUNCTION
+
+The LAG() function is used to get value from row that precedes the current row.
+LAG(expr, N, default) 
+          OVER (Window_specification | Window_name)
+The LEAD() function is used to get value from row that succeeds the current row.
+LEAD(expr, N, default) 
+          OVER (Window_specification | Window_name)
+
+CUME_DIST returns a value that represents the percent of employees with a salary less than or equal to the current employee in the same department. 
+The PERCENT_RANK function calculates the percent rank of the employee's salary within a department.
+
+
+PERCENTILE_CONT (Percentile Continuous):
+
+PERCENTILE_CONT calculates the percentile value by interpolating between adjacent values in the dataset.
+Example: If you have 100 data points and you request the 50th percentile, PERCENTILE_CONT will return the value that falls halfway between the 50th and 51st data points.
+
+PERCENTILE_DISC (Percentile Discrete):
+
+PERCENTILE_DISC calculates the percentile value by selecting a specific data point from the dataset.
+Example: If you have 100 data points and you request the 50th percentile, PERCENTILE_DISC will return the value of the 50th data point.
+
+
+GROUPING SETS 
+---------------------------------------------------------------------------------------------------------------
+ROLLUP:
+
+ROLLUP is an extension of the GROUP BY clause that generates subtotal rows for a specified set of columns.
+It calculates aggregate functions (such as SUM, COUNT, etc.) for each level of granularity defined by the columns in the ROLLUP.
+ROLLUP generates subtotal rows for each level of aggregation, including the grand total.
+Example:
+sql
+Copy code
+SELECT col1, col2, SUM(amount) AS total
+FROM table_name
+GROUP BY ROLLUP(col1, col2);
+GROUPING:
+
+GROUPING is a function used to identify whether a column in a ROLLUP operation contributed to the subtotal or grand total row.
+It returns 1 if the column is part of a subtotal row and 0 otherwise.
+GROUPING is often used in conjunction with ROLLUP to customize the display of subtotal and grand total rows.
+Example:
+sql
+Copy code
+SELECT col1, GROUPING(col1) AS is_subtotal
+FROM table_name
+GROUP BY ROLLUP(col1);
+GROUPING_ID:
+
+GROUPING_ID is a function that returns a bitmap representing the grouping sets for a ROLLUP operation.
+It assigns a unique number to each combination of columns in the ROLLUP.
+The result indicates which columns contributed to the subtotal or grand total row.
+Example:
+sql
+Copy code
+SELECT GROUPING_ID(col1, col2) AS grouping_id, col1, col2, SUM(amount) AS total
+FROM table_name
+GROUP BY ROLLUP(col1, col2);
+In summary, ROLLUP is used for generating subtotal rows, GROUPING identifies subtotal rows, and GROUPING_ID assigns unique identifiers to
+ grouping sets. These features are often used together to create informative summary reports in SQL.
+
+
+CUBE IN GROUP BY
+In SQL, the CUBE operator is used to generate all possible grouping sets for a given set of columns in a GROUP BY clause. 
+SYNTAX - SELECT col1, col2, SUM(amount) AS total
+FROM table_name
+GROUP BY CUBE(col1, col2);

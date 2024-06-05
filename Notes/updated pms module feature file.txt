@@ -1,0 +1,359 @@
+Feature:  Pms Module Testcases
+@sanity @regression
+Scenario: Valid Goal Type  Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill Input Fields
+    Then Checks pop-up whether data is submitted or not
+@regression
+Scenario: Max length of Data in Goal Type
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Enter Input fields
+    Then Checks the length of GoalType
+@regression
+Scenario: Submit form without Goal Description
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Enter the Input fields
+    Then Checks the data is submitted
+@regression
+Scenario: Invalid Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty the Input fields
+    Then Invalid Submission
+@regression @sanity
+Scenario: Valid Success Measure Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in Success Measure
+    Then Checks data is Submitted
+@regression @sanity
+Scenario: Check Add Button in Success Measure Detail
+Given enter the Performace Master Formwith "userDetails.json"
+When Fill the Fields in the Success Measure
+Then Check Add Button
+@regression
+Scenario: InValid Success Measure Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty the Fields in Success Measure
+    Then Checks data is Submitted or not
+@regression @sanity
+Scenario: Valid Project Manager Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Project Manager
+    Then Check Data is Submitted
+@regression
+Scenario: Invalid Project Manager Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty the Fieldss in the Project Manager
+    Then Check Data is Submitted or not
+@regression @sanity
+Scenario: Valid Target Type Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Target Type Form
+    Then Check the Data is Submitted
+@regression
+Scenario: Already Existing Target Type Name
+Given enter the Performace Master Formwith "userDetails.json"
+When Fill the Fields in  Target Type Form
+Then Check whether the Target Name Already Exists
+@regression @sanity
+Scenario: Valid Target Type Form Submission With Adding Target Type
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Target Type Form With Adding Target Type
+    Then Check Data Submits
+@regression
+Scenario: Invalid Target Type Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in  TargetType Form
+    Then Check the Data is Submitted or not
+@regression
+Scenario: Check Delete Button
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Field in  TargetType Form
+    Then Check Delete Button Works
+@regression @sanity
+Scenario: Check Data Deleted Successfully
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill All the Fields in  TargetType Form
+    Then Check Data Deleted Successfully
+@regression @sanity
+Scenario: Valid Competency Bank Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Competency Bank Form
+    Then Check the Data is Submitted
+@regression
+Scenario: Competency Name Already Exists
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Field in the Competency Bank Form
+    Then Check whether the Competency Name Already Exists Pop-up
+@regression
+Scenario: Invalid Competency Bank Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty the Fields in the Competency Bank Form
+    Then Check the Data is Submitted or not
+@regression @sanity
+Scenario: Valid Competency Bank Form Submission With Adding Competency Type
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Competency Bank Form With Adding Competency Type
+    Then Check whether the Data is Submitted or not
+@regression
+Scenario: Check Back Button in Competency Type Form
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Competency Bank Form With Adding Competency Types
+    Then Check Back Button navigates again to Competency Bank Form
+@regression @sanity
+Scenario: Valid Goal Bank Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields in the Goal Bank Form
+    Then Check the Data is Submitted in Goal Bank Form
+@regression
+Scenario: Invalid Goal Bank Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty the Fields in the Goal Bank Form
+    Then Check the Empty Data is Submitted in Goal Bank Form
+
+@regression @sanity
+Scenario: Valid Exclusion Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Fields 
+    Then Check the Data 
+@regression
+ Scenario: Without Selecting Employee in Exclusion Form 
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill the Appraisal and Performance Fields 
+    Then Check Data Submitted
+
+# takes some time this scenario
+Scenario: Valid Inclusion Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill Inclusion Form
+    Then Check the Datas
+@regression @sanity
+Scenario: Valid Coach Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill Coach Form
+    Then Checkk the Data Sumitted
+@regression
+Scenario: Valid Coach Form Submission with Manual Details
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Fill Coach Form manually
+    Then Checkk the Data Sumitted or not
+@regression
+Scenario: Invalid Coach Form Submission
+    Given enter the Performace Master Formwith "userDetails.json"
+    When Empty Coach Form Input Fields
+    Then Checkk the Data Submission
+@regression
+Scenario: Coaching Expertise Already Exists
+Given enter the Performace Master Formwith "userDetails.json"
+When Fill all the  Coach Form Input Fields
+Then Checkk the Data Submissions
+@regression @sanity
+Scenario: Valid Questionanaire Form Submission
+Given enter the Performace Master Formwith "userDetails.json"
+When Fill all the  Questionanaire Form Input Fields
+Then Ensure Data Submitted or not
+@regression
+Scenario: Invalid Questionanaire Form Submission
+Given enter the Performace Master Formwith "userDetails.json"
+When Empty all the  Questionanaire Form Input Fields
+Then Ensure Data Submission
+@regression
+Scenario: Adding Without Level in  Questionanaire Form
+Given enter the Performace Master Formwith "userDetails.json"
+When Click Add Button and adding without level
+Then Ensure it works
+@regression @sanity
+Scenario: Check Add Button
+Given enter the Performace Master Formwith "userDetails.json"
+When Click Add Button
+Then Ensure it works or not
+@regression @sanity
+Scenario: Check Edit Button
+Given enter the Performace Master Formwith "userDetails.json"
+When Click Edit Button
+Then Ensure Data Edited or not
+@regression @sanity
+Scenario: Check Delete Button
+Given enter the Performace Master Formwith "userDetails.json"
+When Click Delete Button
+Then Ensure Data Deleted or not
+@regression @sanity
+Scenario: Valid Career Aspiration Form
+    Given enter the career aspiration pagewith "userDetails.json"
+    When Fill career details form
+    Then valid submission
+@regression
+Scenario: Invalid Career Aspiration Form
+    Given enter the career aspiration pagewith "userDetails.json"
+    When Fill career detailss form
+    Then valid submissions
+@regression @sanity
+Scenario: Valid Goal Setting Form
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Fill Goal details form
+    Then Goal valid submission
+@regression
+Scenario: Invalid Goal Setting Form
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Empty Goal details form
+    Then Goal valid submission or not
+@regression
+Scenario: Check Target Date
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Check Target Date
+    Then Error Pop-up
+@regression @sanity
+Scenario: Check Edit Goal
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Check Edit Goal
+    Then Check Data Edited
+@regression @sanity
+Scenario: Check Delete Goal
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Check Delete Goal
+    Then Check Data Deleted
+@regression @sanity
+Scenario: Valid Measurable Goal Form 
+    Given enter the Goal Setting Formwith "userDetails.json"
+    When Check qunatitative Target
+    Then  Pop-up Success
+
+# test submission without otj
+ @sanity @regression
+Scenario: PMS compentency Submission without otj
+    Given enter the Performace Master Form with "userDetails.json"
+    When test Submission without otj
+    Then Validate Success in Competency
+
+# empty Submission error
+ @sanity @regression
+Scenario: PMS compentency Invalid Submission with Empty details
+    Given enter the Performace Master Form with "userDetails.json"
+    When Empty Submission
+    Then Validate Empty Error in Competency
+
+#empty training submission
+ @sanity @regression
+Scenario: PMS compentency Submission with empty training fields
+    Given enter the Performace Master Form with "userDetails.json"
+    When Enter details with empty training
+    Then Validate Success in Competency
+
+#enter competency for existing pending record
+ @sanity @regression
+Scenario: PMS compentency Submission for existing record
+    Given enter the Performace Master Form with "userDetails.json"
+    When ReEnter details
+    Then Validate Error in Competency
+
+#delete
+ @sanity @regression
+Scenario: PMS compentency Deletion
+    Given enter the Performace Master Form with "userDetails.json"
+    When Delete Competency
+    Then Capture response of Deletion
+
+#empty coaching submission
+ @sanity @regression
+Scenario: PMS compentency Submission with empty coaching fields
+    Given enter the Performace Master Form with "userDetails.json"
+    When Enter details with empty coaching
+    Then Validate Success in Competency
+
+#edit competency
+
+ @sanity @regression
+Scenario: Editing submitted competency
+    Given enter the Performace Master Form with "userDetails.json"
+    When Edit Competency
+    Then Validate Success in Competency
+
+#delete edited case
+@sanity @regression
+Scenario: Delete Edited Competency  
+    Given enter the Performace Master Form with "userDetails.json"
+    When Delete Competency
+    Then Capture response of Deletion
+
+#valid-case
+ @sanity @regression
+Scenario: PMS compentency Submission with valid credentials 
+    Given enter the Performace Master Form with "userDetails.json"
+    When Enter details
+    Then Validate Success in Competency
+
+#send competency when weightage is not equal to 100%
+@regression
+Scenario: PMS compentency Submission before getting 100% weightage
+    Given enter the Performace Master Form with "userDetails.json"
+    When Send Competency for approval when weightage not equal to 100%
+    Then Validate Warning required 100% for approval
+
+
+#edit competency weightage
+@valid-pms @sanity @regression
+Scenario: Editing weightage of submitted compentency
+    Given enter the Performace Master Form with "userDetails.json"
+    When Edit Competency weightage
+    Then Validate Success in Competency
+
+
+#send competency for approval valid case
+@regression
+Scenario: Send Competency for approval 
+    Given enter the Performace Master Form with "userDetails.json"
+    When Send Competency for approval Valid case
+    Then Validate Success in Competency 
+
+
+# track goals
+@regression @sanity
+Scenario: Track goals
+    Given Open Adrenalin Portal and Login with data from "userDetails.json"
+    When Tracking Goals
+    Then Validate Success in Review
+ 
+#track goals with file attachment
+ @regression @sanity
+Scenario: track goals with file attachment
+    Given Open Adrenalin Portal and Login with data from "userDetails.json"
+    When Tracking Goals with file upload
+    Then Validate Success in Review
+ 
+#track goals with flag
+ @regression @sanity
+Scenario: update goals with flag
+    Given Open Adrenalin Portal and Login with data from "userDetails.json"
+    When Tracking Goals with flag
+    Then Validate Success in Review
+ 
+#track goals empty message
+@regression @sanity
+Scenario: Track goals with empty message
+    Given Open Adrenalin Portal and Login with data from "userDetails.json"
+    When Send without message
+    Then Validate Warning in for Empty message
+
+# approve employee appraisal
+ @regression @manager 
+Scenario: Enter rating value more than the required value
+    Given Open Adrenalin Portal and Login with datas from "userDetails.json"
+    When Invalid higher rating case
+    Then Validate Warning in Review
+ @regression @manager 
+Scenario: Send appraisal approval with empty inputs
+    Given Open Adrenalin Portal and Login with datas from "userDetails.json"
+    When Approval Draft Empty case
+    Then Validate Warning in Review
+ 
+ 
+  @regression @manager @sanity
+Scenario: Send for draft - valid case
+    Given Open Adrenalin Portal and Login with datas from "userDetails.json"
+    When  Appraisal Approval Draft
+    Then Validate Success in Appraisal
+ 
+ @regression @manager
+Scenario: Send for Approval - valid case
+    Given Open Adrenalin Portal and Login with datas from "userDetails.json"
+    When Send Appraisal for Approval
+    Then Validate Success in Appraisal

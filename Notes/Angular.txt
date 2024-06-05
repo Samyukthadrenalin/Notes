@@ -1,0 +1,568 @@
+square brackets in selector is attribute selector
+
+Data binding in Angular is a fundamental concept
+that establishes a connection between the
+application's data (in the component) 
+and the UI elements (in the view).
+
+One-way Data Binding:
+In one-way data binding, changes in the model 
+(component) are reflected in the view, but not
+ vice versa. This means that data flows in one
+ direction, typically from the component to the 
+view. Examples of one-way data binding in
+ Angular include string interpolation, 
+property binding, and event binding.
+Two-way Data Binding:
+Two-way data binding enables automatic
+ synchronization of data between the model
+ and the view in both directions. This means
+ that changes in the model update the view,
+ and changes in the view update the model
+ simultaneously. Angular provides the ngModel 
+directive to facilitate two-way data binding,
+ ensuring that changes are immediately and 
+automatically reflected in both the 
+component and the view.
+
+
+
+String interpolation in Angular is
+ a powerful feature that allows you 
+to display dynamic data from the component 
+class in the HTML template. It involves using 
+double curly braces {{ }} to bind data values 
+from the component to the view. Here is an
+ example of 
+string interpolation in Angular:
+
+property binding []square bracket
+event binding () circular bracket
+Event binding
+
+Event binding in Angular allows developers
+ to respond to user actions like keystrokes, 
+mouse movements, clicks, and touches within
+ Angular applications. It enables the execution
+ of specific 
+functions or methods when these events occur.
+
+
+The ng-app directive defines an AngularJS application.
+
+The ng-model directive binds the value of HTML controls (input, select, textarea) to application data.
+
+The ng-bind directive binds application data to the HTML view
+
+
+
+In Angular, $event is a special variable that holds the event object emitted by the DOM event that occurred. It is often used in event binding to access information about the event, such as the value of an input field, the coordinates of a mouse click, or the key pressed on a keyboard.
+
+In your provided code snippet, (input)="onUpdateServerName($event)" is an example of event binding, specifically for the input event. When the user types something into the input field, the onUpdateServerName() method is called with $event passed as an argument. In this case, $event will contain information about the input event, such as the value of the input field.
+
+Similarly, (click)="OnCreateServer()" is another event binding example for the click event of the button element. When the button is clicked, the OnCreateServer() method is called without passing any arguments, as it doesn't need information from the event object.
+
+So, in summary, $event in this context represents the input event object emitted by the input field when the user types into it.
+
+
+
+Types of binding :
+
+Interpolation ({{ }}):
+Use case: Displaying dynamic text content.
+<h1>Welcome {{ username }}</h1>
+
+
+Property binding ([property]="expression"):
+Use case: Dynamically setting an element property.
+<img [src]="imageUrl">
+
+
+Event binding ((event)="handler()"):
+Use case: Responding to user events.
+<button (click)="onButtonClick()">Click me!</button>
+
+Two-way binding ([(ngModel)]="property"):
+Use case: Binding input fields to component properties for two-way data flow.
+<input type="text" [(ngModel)]="username">
+These examples illustrate how each type of binding can be used in Angular templates to create dynamic and 
+interactive user interfaces.
+
+Directives - instruction in DOM
+->Directives in Angular are classes that 
+add new behavior or modify existing behavior
+ to elements in the template. They are used to 
+manipulate the DOM, such as adding or removing 
+elements, changing appearance, or altering 
+behavior.
+
+Directives are selected using attribute selector
+
+*ngIf is structural directive ->*ngIf in Angular
+ is like a magic spell that can make elements 
+appear or disappear on a web page based on
+ certain conditions. If the condition is true,
+ the element shows up; if false, it disappears. 
+It's a handy way to control what users see on 
+the screen dynamically without 
+having to reload the entire page
+ngStyle dynamically update the style
+
+
+To access own property outside component
+
+To access a component's own property outside the 
+component in Angular, the correct approach is to 
+use decorators. In Angular, the use of decorators
+ like @Input and @Output allows properties to be
+ accessed from outside the component. 
+These decorators provide a way to pass data into 
+a component and emit data out of the component, 
+enabling communication with the component's 
+properties from external sources. The @Input 
+decorator is used to pass data into a component, 
+while the @Output decorator is used to emit 
+events out of the component. By utilizing these 
+decorators appropriately, developers can 
+interact with a component's properties 
+effectively 
+from external sources in Angular applications
+
+
+we use @Input decorator which provides way to acces the data where the property is present in one component and we are trying to access in another component
+@Output decorator is used to emit events out of the component
+
+
+
+
+View encapsulation in Angular refers to the mechanism by which the styles defined within a component are scoped to only that component, preventing them from affecting other parts of the application. This encapsulation is crucial for maintaining modularity and preventing style conflicts in complex applications. Angular provides different view encapsulation modes, including:
+ShadowDom: Utilizes the browser's native Shadow DOM API to attach a shadow DOM to the component's host element, isolating the component's view and styles within it.
+Emulated: This is the default mode in Angular and emulates the behavior of shadow DOM by preprocessing and renaming CSS code to scope the styles to the component's view effectively.
+None: Disables view encapsulation, allowing the component's styles to be added to the global styles without scoping, similar to pasting the component's styles directly into the HTML.
+View encapsulation ensures that styles defined within a component are encapsulated and do not leak or interfere with other components or global styles, enhancing maintainability and preventing unintended style interactions in Angular applications.
+
+The @ViewChild decorator in Angular is used to access and manipulate child components, directives, or DOM elements within a parent component. It allows you to query the first matching element in the component tree, enabling interaction with its properties and methods.
+
+lifecycle hooks
+
+Lifecycle hooks in Angular are essential methods 
+that Angular calls at specific points in the 
+lifecycle of a component or directive. 
+These hooks allow developers to tap into key 
+moments during the creation, update, and 
+destruction of components, enabling them to 
+perform actions or respond to changes at these 
+critical stages. Some of the common Angular 
+lifecycle hooks include:
+ngOnChanges(): Invoked when Angular resets data-bound input properties.
+ngOnInit(): Called after Angular first displays the data-bound properties and initializes the component.
+ngDoCheck(): Detects and acts upon changes that Angular cannot or won't detect on its own.
+ngAfterContentInit(): Responds after Angular projects external content into the component's view.
+ngAfterContentChecked(): Responds after Angular checks the content projected into the component.
+ngAfterViewInit(): Responds after Angular initializes the component's views and child views.
+ngAfterViewChecked(): Responds after Angular checks the component's views and child views.
+ngOnDestroy(): Cleans up just before Angular destroys the directive/component, allowing for tasks like unsubscribing from observables to avoid memory leaks.
+These lifecycle hooks provide developers with visibility into the key moments in a component's lifecycle and the ability to execute custom logic or perform necessary cleanup operations. By implementing these hooks, developers can enhance the functionality and behavior of their Angular applications by responding to changes and events at specific stages of a component's lifecycle.
+
+
+Attribute and Structural Directives
+
+Attribute directives change the appearance or behavior of an element by 
+modifying its attributes.Ex:ngStyle,ngClass
+Structural directives change the structure of the DOM by adding, removing, or manipulating elements based
+ on certain conditions.Ex:ngIf,ngFor
+
+In Angular, ngOnInit is a lifecycle hook provided by the Angular framework that is called once after the component has been initialized and its inputs have been bound for the first time. It's part of the OnInit interface, which is implemented by Angular components.
+
+The primary use of ngOnInit is for initialization logic that depends on the component's inputs being available. It's commonly used to perform tasks such as:
+
+Initializing component properties and variables.
+Retrieving data from a server or external source.
+Setting up subscriptions to observables.
+Performing any other initialization tasks needed for the component.
+
+
+@HostListener is a decorator that allows you to listen to events on the host element of the directive or component. It provides a convenient way to attach event listeners directly to the host element without needing to manually add event listeners in the component class.Ex:mouseEnter,mouseLeave
+
+@HostBinding is a decorator used to bind a property of a directive or component to a property of its host element. It allows you to set values for host element properties directly from within the directive or component class.
+
+Here's how @HostBinding works:
+
+Decorator Usage: You apply the @HostBinding decorator to a property in your directive or component class.
+
+Property Binding: Inside the decorator, you specify the name of the property on the host element that you want to bind to.
+
+Value Assignment: The property that you decorate with @HostBinding will be automatically updated to match the value of the specified property on the host element.
+import { Component, HostBinding } from '@angular/core';
+
+@Component({
+  selector: 'app-my-component',
+  template: `
+    <div>Hello, World!</div>
+  `
+})
+export class MyComponent {
+  
+  // Define a property decorated with @HostBinding to bind the 'class.my-class' property of the host element
+  @HostBinding('class.my-class') myClass = true;
+
+  // You can also use @HostBinding with style properties
+  // @HostBinding('style.color') textColor = 'red';
+}
+The myClass property is decorated with @HostBinding('class.my-class'). This means that the my-class class will be added to the host element if myClass is true, and removed if myClass is false.
+You can also use @HostBinding with style properties, similar to class properties, to bind to CSS style properties of the host element.
+@HostBinding provides a convenient way to dynamically apply styles and classes to the host element of a directive or component based on properties of the directive or component class.
+
+
+
+
+ngSwitch is a directive in Angular that is used to conditionally display elements based on the value of an expression. It's similar to a switch statement in traditional programming languages.
+
+In simple terms, ngSwitch evaluates an expression and then selects one of multiple possible templates to display based on the evaluated value. Each possible template is associated with a specific value of the expression, and only the template corresponding to the evaluated value will be rendered
+ex:<div [ngSwitch]="color">
+  <div *ngSwitchCase="'red'">You selected red</div>
+  <div *ngSwitchCase="'blue'">You selected blue</div>
+  <div *ngSwitchCase="'green'">You selected green</div>
+  <div *ngSwitchDefault>No color selected</div>
+</div>
+
+SERVICES - SERVICES allow us to do centralized task
+-------------
+
+services are a way to organize and share code across different parts of your application. 
+They are a fundamental part of Angular's dependency injection system and are 
+commonly used to encapsulate reusable functionality that is independent of any specific component.
+
+Dependency Injection:
+When you develop a smaller part of your system, like a module or a class, you may need to use features from other classes. 
+For example, you may need an HTTP service to make backend calls. Dependency Injection, or DI, is a design pattern and mechanism for
+ creating and delivering some parts of an application to 
+other parts of an application that require them. Angular supports this design pattern and you can use it in your applications
+ to increase flexibility and modularity.
+
+
+Angular Routing :
+
+Angular routing is a feature in the Angular framework that enables navigation between different pages or views within a single-page application (SPA). 
+In a SPA, the content within the application is loaded dynamically without the need to refresh the page. Angular uses the built-in router to handle routing 
+within its applications,
+ mapping URLs to components. When a user clicks on a link, the router returns the default route mapped to the URL and renders the appropriate app component
+Ex:import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+<nav>
+  <a routerLink="/">Home</a>
+  <a routerLink="/about">About</a>
+</nav>
+
+<router-outlet></router-outlet>
+
+SELECTOR : A selector in Angular is a CSS selector that identifies how Angular finds a specific component in any HTML page. It is used to 
+define how the component is identified when it is used in HTML.
+DIRECTIVES : directive in Angular is a type of attribute that can be added to an HTML tag to extend its functionality or change its behavior.
+ Directives allow developers to create custom HTML elements or modify existing ones, making it easier to build complex user interfaces. 
+Angular comes with built-in directives like ngIf, ngFor, and ngSwitch,
+ which can be used to conditionally render elements, loop through collections, and switch between different views, respectively.
+
+STRUCTURAL DIRECTIVES : *ngIf, *ngFor, and ngSwitch, are used to conditionally add or remove elements from the DOM based on certain conditions. They shape or reshape the DOM's structure by adding, removing, or manipulating elements.
+ATTRIBUTE DIRECTIVES : ngModel, ngClass, and ngStyle, are used to change the appearance or behavior of elements, components, or other directives.
+
+
+The types of data binding in Angular are Interpolation, Property binding, Event binding, and Two-way binding. Here are examples for each type:
+Interpolation:
+Interpolation is a one-way data binding method that allows you to embed expressions into markup text.
+Example: <p>{{title}}</p> or <div><img src="{{itemImageUrl}}"></div>
+Property Binding:
+Property binding is another form of one-way data binding where you bind data from the component to the view.
+Example: <img [src]="itemImageUrl"> or <app-item-detail [childItem]="parentItem"></app-item-detail>
+Event Binding:
+Event binding is used to handle events raised from the DOM, like button clicks or mouse movements.
+Example: <button (click)="showMessage()">Click me</button>
+Two-way Data Binding:
+Two-way data binding combines property binding and event binding to ensure data synchronization between the component and the view in both directions.
+Example: <input [(ngModel)]="name">
+These examples demonstrate the different types of data binding in Angular and how they can be implemented to create dynamic and interactive applications.
+
+The @Injectable decorator is used in Angular to denote a service, which can be injected into components and other services.
+
+Observable
+-------------------------------
+an Observable in Angular is like a stream of data
+ that you can subscribe to. It represents a sequence of values
+ that may be emitted over time. Observables are used in Angular projects for handling asynchronous operations, such as HTTP requests, 
+user input, or timer events.
+
+Routing - if we use href to add links if we refresh the page ,the whole application will refersh and we lost the data,application move to home page.
+To avoid this instead of href we are going to use Router Link.
+
+In Angular, "snapshot" and "params" are related to the ActivatedRoute, which provides access to the route's parameters.
+Snapshot: The snapshot property of ActivatedRoute provides a snapshot of the route information at the instant the component is created. It's a static image of the route information 
+at a specific moment in time. Once the component 
+is initialized, changes to the route parameters 
+won't be reflected in the snapshot. You typically
+ use the snapshot when you don't expect the route
+ parameters to change while the component is 
+active.
+
+Params: The params property of ActivatedRoute is
+ an Observable that you can subscribe to in order
+ to get notified whenever the route parameters
+ change. It provides a dynamic way to react to
+ changes in the route parameters. This is useful
+ when you expect the route parameters to change 
+while the component is active, for example, when
+ navigating within the same component but with
+ different parameter values.
+
+
+Route Observables :
+In Angular, route observables are used to listen to changes in the route and react accordingly. The Angular Router provides several observables that you can subscribe to in order to respond to different types of route events.
+ActivatedRoute: This observable provides information about the currently activated route, including its parameters, data, and the URL segments. You can use the params observable to listen for changes to route parameters and the data observable to access any route-specific data.
+Router: The Router service provides observables for listening to navigation events. You can use the events observable to listen for all navigation events, such as navigation start, end, error, and navigation cancellation.
+RouterOutlet: The RouterOutlet directive provides an activateEvents observable that emits events when a new component is instantiated as part of a route activation.
+
+The canActivate guard (checking route access)
+The canActivateChild guard (checking child route access)
+The canDeactivate guard (ask permission to discard unsaved changes)
+The resolve guard (pre-fetching route data)
+
+The RouterModule.forRoot() method is a pattern used to register application-wide providers.
+
+In Angular, RouterModule.forRoot() is used to configure the router module with the root application routes. 
+
+Observables -->Data Source basically (User Input) Events,Http Requests
+
+
+
+
+
+
+
+
+FORMS
+--------------------------
+Angular uses two approach to handle form
+1.Template-Driven(infers form object from DOM)
+2.Reactive-created programatically and synchronized with the DOM
+For the template-driven approach, you need the directives.
+
+We doesnt need forms module in import in Reactive-created forms,which is only needed for
+Template-Driven Approach
+
+
+BASE CLASSES	DETAILS
+FormControl	Tracks the value and validation status of an individual form control.
+FormGroup	Tracks the same values and status for a collection of form controls.
+FormArray	Tracks the same values and status for an array of form controls.
+ControlValueAccessor	Creates a bridge between Angular FormControl instances and built-in DOM elements.
+
+
+Pipes :
+
+allows to transfer output into the template
+Pipes for different types of output - synchronous and asynchronous data
+slice pipe will take two argument:start,end
+In Angular, pipes are a feature that allows you to transform the data displayed in your templates. They are used in HTML templates to format data before rendering it on the screen. Pipes are denoted by the pipe character | and are followed by the pipe name and optional parameters.
+
+Here are some common use cases for pipes in Angular:
+
+DatePipe: Formats dates based on the locale settings.
+
+html
+Copy code
+<p>{{ today | date }}</p> <!-- Outputs: Apr 15, 2024 -->
+UpperCasePipe/LowerCasePipe: Converts text to uppercase or lowercase.
+
+html
+Copy code
+<p>{{ 'Hello World' | uppercase }}</p> <!-- Outputs: HELLO WORLD -->
+<p>{{ 'Hello World' | lowercase }}</p> <!-- Outputs: hello world -->
+DecimalPipe: Formats numbers with decimal points and precision.
+
+html
+Copy code
+<p>{{ 3.141592 | number:'1.2-3' }}</p> <!-- Outputs: 003.142 -->
+CurrencyPipe: Formats numbers as currency values.
+
+html
+Copy code
+<p>{{ amount | currency:'USD':'symbol':'1.2-2' }}</p> <!-- Outputs: $123.45 -->
+SlicePipe: Extracts a section of an array or string.
+
+html
+Copy code
+<p>{{ text | slice:0:5 }}</p> <!-- Outputs: 'Hello' -->
+AsyncPipe: Handles asynchronous data by subscribing to Observables or Promises and automatically updating the view when the data changes.
+
+html
+Copy code
+<p>{{ asyncData | async }}</p>
+These are just a few examples, but Angular provides several built-in pipes for various data formatting needs. Additionally, you can create custom pipes to suit your specific requirements. Pipes are a powerful tool for manipulating and formatting data in Angular applications.
+
+
+Post Request and Observables
+--------------------------------------
+Sending Data: Imagine you're filling out a form on a website. When you click "Submit", the information you entered needs to be sent to the server so it can be saved or processed in some way. This sending of data from your browser to the server is what we call a POST request.
+
+Angular's Role: Angular, being a web framework, helps you manage this process smoothly. It provides a built-in module called HttpClient that allows your Angular application to send POST requests to a server.
+
+How It Works: In Angular, you write code that tells the application to send a POST request to a specific URL (where the server is listening) and includes the data you want to send. Angular then takes care of actually sending the request over the internet.
+
+Handling Responses: After the server receives the POST request, it may do some processing and then send a response back to your Angular application. Angular provides ways to handle this response, allowing you to update your application's UI or take other actions based on the server's response.
+
+Interacting with the Server: Ultimately, the POST request allows your Angular application to communicate with server-side code (like a backend server or an API). This interaction is key for building dynamic and interactive web applications.
+
+Dependency Injection: Angular uses a concept called "dependency injection" (DI) to manage how different parts of your application interact with each other. With DI, you can inject instances of other classes or services into your components, directives, or other services.
+
+Query Params
+------------------------------------
+Query parameters, in simple terms, are additional pieces of information added to the end of a URL that provide specific instructions or data to a web server. They are used to modify or customize the content that is returned by the server in response to a request.
+
+INTERCEPTORS
+--------------------------------
+Interceptors in Angular are a powerful feature that allow you to 
+intercept HTTP requests or responses globally 
+within your application. They provide a way to 
+modify or handle requests and responses before 
+they are sent to the server or received by the client code.
+Response Interceptors : Response interceptors intercept HTTP responses after they are received but before they are passed to the calling code. This means you can inspect and modify the response data or perform additional tasks before the response is
+ consumed by the application.
+
+Both get and post request will give a observable
+
+
+Authentication
+------------------------------------------------
+
+
+In simple words, ActivatedRouteSnapshot and RouterStateSnapshot are two key objects used in Angular's router module to capture and represent the state of a routed component and the entire router state, respectively.
+
+ActivatedRouteSnapshot: Think of it as a snapshot of the current route at a specific point in time. It contains information about the route's parameters, data, and URL segments. When a component is activated due to routing, Angular creates an instance of ActivatedRouteSnapshot for that route. It's like taking a picture of the route's configuration and data at that moment.
+
+RouterStateSnapshot: This object represents the entire state of the router at a specific moment. It's like taking a snapshot of the entire routing tree, including all the activated route snapshots at that moment. It provides a hierarchical view of the application's routing state, allowing you to access information about the current URL, activated routes, and any route-specific data.
+
+Dynmaic Components:Components which are created dynamically In simpler terms, instead of having all components predefined in the HTML file, dynamic components allow you to generate or load components based on certain conditions, user actions, or data.
+
+For example, you might have a web application where users can select different options from a dropdown menu. Based on the option selected, you want to display different content or components. In this scenario, you would use dynamic components to load the appropriate content based on the user's selection.
+Component Factory Resolver :
+ComponentFactoryResolver is a class provided by Angular that allows you to dynamically create components at runtime. It's particularly useful when you need to load components dynamically based on certain conditions, such as user interactions or data.
+
+Here's a brief overview of how ComponentFactoryResolver works:
+
+Component Factory: In Angular, components are compiled into factories during the build process. A component factory is essentially a compiled version of a component that Angular can use to instantiate components at runtime.
+ComponentFactoryResolver: This class is responsible for resolving component factories based on the component type or its selector. It's part of Angular's dependency injection system (@angular/core) and can be injected into other Angular components or services.
+Dynamic Component Creation: Once you have the component factory, you can use it to create instances of the component dynamically. This is done by calling the createComponent() method on the ViewContainerRef of a host element in your component template.
+
+
+CommonModule : 
+In Angular, the CommonModule is a module provided by the Angular framework that contains common directives, pipes, and other functionality used across different Angular modules. It provides a set of commonly used directives like NgIf, NgForOf, NgClass, NgStyle, etc., as well as common pipes like DatePipe, UpperCasePipe, LowerCasePipe, etc.
+
+
+Shared Modules :
+a shared module in Angular is a module that contains components, directives, pipes, or other features that are shared across multiple other modules in your application.
+Reusability: Shared modules help promote code reusability by allowing you to organize and group common components, directives, and pipes in one place. This makes it easier to maintain and manage shared functionality across different parts of your application.
+Organization: By creating a shared module, you can centralize the implementation of commonly used features. This helps keep your codebase organized and reduces duplication, as you can import the shared module wherever it's needed instead of duplicating the same code across multiple modules.
+
+Auth-Feature Module :
+"auth-feature module" in Angular is like a toolkit specifically designed for managing user authentication in a web application.Ex : Imagine you're building a house, and you need a toolbox just for plumbing tasks. Similarly, in a web app, the "auth-feature module" is like a toolbox dedicated to handling everything related to user login, registration, and security.
+
+Code Optimization - Lazing Loading :
+
+Lazy loading in Angular refers to a technique where modules or components are loaded asynchronously when needed, rather than loading everything upfront when the application starts. This means that certain parts of the application are only loaded when the user navigates to those specific routes or features.
+
+Here's a simple analogy to understand lazy loading:
+
+Imagine you're visiting a large museum with multiple wings, each containing different exhibits. Instead of opening all the wings at once when the museum opens in the morning, they only open the wings that visitors are interested in seeing. For example, if a group of visitors wants to see the Art Wing, only then it will be opened, while the other wings remain closed until someone wants to visit them.
+
+Similarly, in Angular, lazy loading helps improve the initial loading time of the application by loading only the essential modules when the app starts. Other modules are loaded asynchronously as the user navigates through the application. This can significantly improve the performance and efficiency of the application, especially for large-scale applications with many features.
+
+Pre-loading Lazy loaded code :
+ Imagine you're going on a road trip and you have a GPS system in your car. Lazy loading is like waiting to ask the GPS for directions until you're actually at a junction or turn. Preloading lazy-loaded code is like asking the GPS for directions to upcoming junctions and turns even before you get to them, so that when you do arrive, you already know where to go and don't have to wait for the GPS to figure it out. It's like being proactive about getting ready for what's coming up next on your journey.
+
+Static host - capable of serving html,css,js but not capable of any server side languages
+
+Server Routing and Browser Routing :
+server routing determines how the server responds to requests based on URLs, while browser routing controls how the content is displayed and updated within the browser itself without making additional server requests.
+
+Standalone Components :
+Standalone components, in simple terms, are self-contained building blocks of a software application that can function independently and be reused in various parts of the application without dependencies on other components.
+
+Angular Signals :
+In Angular, "signals" typically refer to Observable objects. Here's a simplified explanation:
+Imagine you have a room with a light switch. When you flip the switch, it sends a signal to the light bulb, telling it to turn on or off. Similarly, in Angular, Observables act as signals that transmit data or events between different parts of your application.
+Angular signals (Observables) are a way for different parts of your application to communicate by emitting and listening for data or events. They provide a powerful mechanism for handling asynchronous operations, such as user interactions, HTTP requests, or real-time updates.
+
+Computed values and effects :
+In Angular routing, computed values are derived from the current state of the application, while effects are actions triggered by changes in the routing state, such as loading data or updating the UI.
+
+Animations :
+Angular Animations Module:
+Angular comes with its own animation module (@angular/animations) that provides a set of APIs for creating animations declaratively in your Angular application. This module allows you to define animations using Angular's animation DSL (Domain Specific Language) within your component code.
+Animation Trigger:
+Animations in Angular are triggered by the state changes of elements or components. You define animation triggers using the trigger() function, which binds to a specific state change, such as entering or leaving a component, or transitioning between different states of a component.
+Animation States and Transitions:
+Within an animation trigger, you define animation states (e.g., void, open, closed) and transitions between these states. Transitions specify the animations that should occur when an element enters or leaves a state, or when it transitions between different states.
+Animation Keyframes:
+Animation keyframes define the intermediate steps of an animation. You can define keyframes using the style() and animate() functions, which allow you to specify CSS styles and animation durations for different stages of the animation.
+Integration with Angular Components:
+You can apply animations to Angular components using the [@triggerName] syntax in your component templates, where triggerName is the name of the animation trigger defined in your component code. This allows you to animate component properties such as visibility, position, size, and opacity.
+Animation Timing and Easing:
+Angular animations support various timing functions and easing curves to control the pace and style of animations. You can specify timing functions such as ease-in, ease-out, linear, or custom cubic bezier curves to achieve different animation effects.
+Animation Hooks:
+Angular provides lifecycle hooks such as @transitionName.start and @transitionName.done that allow you to execute custom logic before or after an animation starts or completes. This enables you to synchronize animations with other application logic or trigger additional actions based on animation events.
+Animation Metadata:
+Angular animations support metadata properties such as query, stagger, and group that allow you to create complex animation sequences and coordinate animations across multiple elements or components.
+By leveraging Angular's animation system, you can create fluid and responsive animations that enhance the user experience of your Angular applications, from simple transitions and fades to complex interactive animations.
+
+Animation Callbacks():
+
+Animation callbacks are functions that are executed at specific points during the lifecycle of an animation. These callbacks allow you to perform custom logic or trigger additional actions based on the progress or completion of an animation. In the context of web animations, such as those created with CSS or JavaScript frameworks like Angular Animations, animation callbacks typically serve the following purposes
+
+Angular Element --converting angular components to native angular web components
+
+
+Schematics and builders :
+Schematics:
+Schematics are like blueprints or templates that define the structure and content of files and directories in your Angular project. They allow you to generate code and files for components, modules, services, and other Angular artifacts using predefined templates. For example, when you run commands like ng generate component or ng generate service, Angular CLI uses schematics under the hood to generate the necessary files and boilerplate code based on predefined templates.
+Builders:
+Builders are tools that orchestrate the build process of your Angular application. They define how your application is built, compiled, and packaged for deployment. Builders are responsible for tasks such as compiling TypeScript code, bundling JavaScript files, optimizing assets, and generating production-ready builds. Angular CLI comes with built-in builders for development (ng serve) and production (ng build), but you can also create custom builders to extend or modify the build process according to your project's specific requirements.
+
+Differential Loading:
+Differential loading in Angular refers to a technique where the browser is served with separate bundles of JavaScript code based on its capabilities. Modern browsers receive smaller, more optimized bundles, while older browsers receive larger bundles with additional polyfills to ensure compatibility. This helps improve performance and load times for modern browsers while still supporting older ones.
+
+Library in Angular :
+a library is a collection of reusable code, components, services, and utilities that can be shared and reused across multiple Angular projects. It encapsulates functionality that can be easily imported and used in various applications, promoting code reusability and modularity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

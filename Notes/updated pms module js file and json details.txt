@@ -1,0 +1,3479 @@
+import{Given, When , Then} from "cypress-cucumber-preprocessor/steps";
+Given("enter the Performace Master Formwith {string}",(userDetails)=>{
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user2.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user2.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user2.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    cy.get('#mat-input-3').type('Goals')
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+    cy.contains('mat-option', 'Goals').click();
+    cy.get('input[placeholder="Search for people, forms etc"]').type('{backspace}');
+    cy.get('#mat-input-3').type('Goals')
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+    // cy.contains('mat-option', 'Goals').click();
+    // cy.get('input[placeholder="Search for people, forms etc"]').type('{backspace}');
+    // cy.wait(2000)
+    // cy.get('input[placeholder="Search for people, forms etc"]').type('goals', { parseSpecialCharSequences: false });
+    // cy.contains('mat-option', 'Goals').click()
+    cy.wait(4000)
+    cy.get('iframe#commonFormRender').then($iframe => {
+        const iframe = $iframe.contents();
+        iframe.find('li.moreMenu mat-icon').click();
+      });
+      cy.wait(2000)
+      cy.get('iframe#commonFormRender').then(($iframe) => {
+        const iframeDoc = $iframe.contents().find('body');
+        cy.wrap(iframeDoc).find('.mat-menu-panel').should('be.visible').within(() => {
+          cy.contains('.l2-menu-link span', 'Performance master').click();
+        });
+      });
+    });
+
+    // Scenario: Valid Goal Type  Form Submission
+    When("Fill Input Fields", ()=>{
+        function getRandomText(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        
+        cy.iframe('#commonFormRender').then($iframe => {
+            const randomText = getRandomText(8); // Generate random text of 8 characters
+            cy.wrap($iframe)
+                .find('aestextbox#GoalType input.mat-input-element')
+                .should('be.visible')
+                .type(randomText);
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            const textarea = $iframe.contents().find('textarea.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea');
+            if (textarea.length > 0) {
+              cy.wrap(textarea).type('Your text here');
+            } else {
+              cy.log('Textarea element not found');
+            }
+          });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox#GoalCode  input.mat-input-element')
+                .should('be.visible') 
+                .type('777');
+        });
+    });
+    Then("Checks pop-up whether data is submitted or not", () => {
+        cy.wait(3000)
+        cy.iframe('#commonFormRender').then($iframe => {
+            const textarea = $iframe.contents().find('textarea.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea');
+            if (textarea.length > 0) {
+              const text = textarea.val(); // Get the value of the textarea
+              if (text.length <= 50) {
+                cy.log('Textarea length is within the limit');
+              } else {
+                cy.log('Textarea length exceeds 50 characters');
+              }
+            } else {
+              cy.log('Textarea element not found');
+            }
+          });
+          cy.iframe('#commonFormRender').then($iframe => {
+            const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+            if (submitButton.length > 0) {
+              cy.wrap(submitButton).click();
+            } else {
+              cy.log('Submit button not found');
+            }
+          });
+          cy.wait(2000)
+          cy.iframe('#commonFormRender').then($iframe => {
+                      const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                      if (toaster.length > 0) {
+                        cy.wrap(toaster).contains('Success');
+                      } else {
+                        cy.log('Toaster element not found');
+                      }
+                    });
+        })     
+
+        // Scenario: Max length of Data in Goal Type
+    When("Enter Input fields", ()=>{
+        function getRandomText(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        
+        cy.iframe('#commonFormRender').then($iframe => {
+            const randomText = getRandomText(8); // Generate random text of 8 characters
+            cy.wrap($iframe)
+                .find('aestextbox#GoalType input.mat-input-element')
+                .should('be.visible')
+                .type(randomText);
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            const textarea = $iframe.contents().find('textarea.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea');
+            if (textarea.length > 0) {
+              cy.wrap(textarea).type('Your text here');
+            } else {
+              cy.log('Textarea element not found');
+            }
+          });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox#GoalCode  input.mat-input-element')
+                .should('be.visible') 
+                .type('777');
+        });
+    });
+    Then("Checks the length of GoalType", () => {
+        cy.wait(3000)
+        cy.iframe('#commonFormRender').then($iframe => {
+            const textarea = $iframe.contents().find('textarea.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea');
+            if (textarea.length > 0) {
+              const text = textarea.val(); // Get the value of the textarea
+              if (text.length <= 50) {
+                cy.log('Textarea length is within the limit');
+              } else {
+                cy.log('Textarea length exceeds 50 characters');
+              }
+            } else {
+              cy.log('Textarea element not found');
+            }
+          });
+        })     
+
+    
+        // Scenario: Submit form without Goal Description
+        When("Enter the Input fields", ()=>{
+            function getRandomText(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                const charactersLength = characters.length;
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+            
+            cy.iframe('#commonFormRender').then($iframe => {
+                const randomText = getRandomText(8); // Generate random text of 8 characters
+                cy.wrap($iframe)
+                    .find('aestextbox#GoalType input.mat-input-element')
+                    .should('be.visible')
+                    .type(randomText);
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox#GoalCode  input.mat-input-element')
+                    .should('be.visible') 
+                    .type('777');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+                if (submitButton.length > 0) {
+                  cy.wrap(submitButton).click();
+                } else {
+                  cy.log('Submit button not found');
+                }
+              });
+        });
+        Then("Checks the data is submitted", () => {
+            cy.wait(3000)
+            cy.iframe('#commonFormRender').then($iframe => {
+                const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                if (toaster.length > 0) {
+                  cy.wrap(toaster).contains('Success');
+                } else {
+                  cy.log('Toaster element not found');
+                }
+              });
+            })   
+        
+        // Scenario: Invalid Form Submission
+    When("Empty the Input fields", ()=>{
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox#GoalType  input.mat-input-element')
+                .should('be.visible') 
+                .type('{backspace}');
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox#GoalCode  input.mat-input-element')
+                .should('be.visible') 
+                .type('{backspace}');
+        });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox#GoalCode  input.mat-input-element')
+            .should('be.visible') 
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+            cy.wrap(submitButton).click();
+        } else {
+            cy.log('Submit button not found');
+        }
+        });
+});
+Then("Invalid Submission", () => {
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const goalTypeField = cy.wrap($iframe).find('aestextbox#GoalType input.mat-input-element');
+    
+        // Check if the input field is empty
+        goalTypeField.should('be.visible').invoke('val').then(value => {
+            if (value === '') {
+                cy.log('Goal type field is empty, invalid form submission');
+            } else {
+                // If the field is not empty, you can proceed with your actions
+                goalTypeField.clear().type(getRandomText(8));
+            }
+        });
+    })  
+})
+
+    // Scenario: Valid Success Measure Form Submission
+When("Fill the Fields in Success Measure", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#SuccessMeasure-tab')
+            .click();
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_CODE"] input.mat-input-element')
+            .should('be.visible')
+            .type('J');
+    });
+    function generateRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+    const randomText = generateRandomText(10);
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_SUCCESS_MEASURE_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_DESCRIPTION"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('Your description here');
+    });
+cy.iframe('#commonFormRender').then($iframe => {
+    const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+    if (addButton.length > 0) {
+        cy.wrap(addButton).click();
+    } else {
+        cy.log('Add button not found');
+    }
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox input.mat-input-element')
+        .each($input => {
+            cy.wrap($input).type('Your description here', { force: true });
+        });
+});    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('aesbutton[mlmkey="CORE_GEN_NbtnSubmit"] button.mat-button');
+        if (submitButton.length > 0) {
+            cy.wrap(submitButton).click();
+        } else {
+            cy.log('Submit button not found');
+        }
+    }); 
+})
+Then("Checks data is Submitted", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+                const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                if (toaster.length > 0) {
+                  cy.wrap(toaster).contains('Success');
+                } else {
+                  cy.log('Toaster element not found');
+                }
+              });
+})  
+
+
+    // Scenario: Check Add Button in Success Measure Detail
+When("Fill the Fields in the Success Measure", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#SuccessMeasure-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_CODE"] input.mat-input-element')
+            .should('be.visible')
+            .type('J');
+    });
+    function generateRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+    const randomText = generateRandomText(10);
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_SUCCESS_MEASURE_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_DESCRIPTION"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('Your description here');
+    });
+        
+})
+Then("Check Add Button", () => {
+    cy.wait(3000)
+    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const inputField = $iframe.contents().find('aestextbox input.mat-input-element');
+        if (inputField.length > 0) {
+            cy.log('Input field is present');
+        } else {
+            cy.log('Input field is not present');
+        }
+    });
+})   
+
+    // Scenario: InValid Success Measure Form Submission
+When("Empty the Fields in Success Measure", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#SuccessMeasure-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_CODE"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_SUCCESS_MEASURE_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CSM_DESCRIPTION"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+cy.iframe('#commonFormRender').then($iframe => {
+    const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+    if (addButton.length > 0) {
+        cy.wrap(addButton).click();
+    } else {
+        cy.log('Add button not found');
+    }
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox input.mat-input-element')
+        .each($input => {
+            cy.wrap($input).type('{backspace}', { force: true });
+        });
+});
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('aesbutton[mlmkey="CORE_GEN_NbtnSubmit"] button.mat-button');
+        if (submitButton.length > 0) {
+            cy.wrap(submitButton).click();
+        } else {
+            cy.log('Submit button not found');
+        }
+    });
+    
+})
+Then("Checks data is Submitted or not", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const goalTypeField = cy.wrap($iframe).find('aestextbox[formcontrolname="CSM_CODE"] input.mat-input-element');
+    
+        // Check if the input field is empty
+        goalTypeField.should('be.visible').invoke('val').then(value => {
+            if (value === '') {
+                cy.log('Code field is empty, invalid form submission');
+            } else {
+                // If the field is not empty, you can proceed with your actions
+                goalTypeField.clear().type(getRandomText(8));
+            }
+        });
+    })
+    cy.iframe('#commonFormRender').then($iframe => {
+        const goalTypeField = cy.wrap($iframe).find('aestextbox[formcontrolname="CSM_SUCCESS_MEASURE_NAME"] input.mat-input-element');
+    
+        // Check if the input field is empty
+        goalTypeField.should('be.visible').invoke('val').then(value => {
+            if (value === '') {
+                cy.log('Name field is empty, invalid form submission');
+            } else {
+                // If the field is not empty, you can proceed with your actions
+                goalTypeField.clear().type(getRandomText(8));
+            }
+        });
+    })
+})  
+
+
+    // Scenario: Valid Project Manager Form Submission
+When("Fill the Fields in the Project Manager", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#ProjectManager-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="ProjectNameDropdown"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('new5')
+            .click({ force: true });
+    });
+
+    })
+    Then("Check Data is Submitted", () => {
+        cy.iframe('#commonFormRender').then($iframe => {
+            const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+            submitButton.should('be.visible').click({force:true,multiple: true});
+        });
+        cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+    })
+    })  
+
+
+    // Scenario: Invalid Project Manager Form Submission
+    When("Empty the Fieldss in the Project Manager", ()=>{
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('a#ProjectManager-tab')
+                .click();
+        });
+    })
+     Then("Check Data is Submitted or not", () => {
+            cy.iframe('#commonFormRender').then($iframe => {
+                const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+                submitButton.should('be.visible').click({force:true,multiple: true});
+                cy.wait(3000)
+                const goalTypeField = cy.wrap($iframe).find('aestextbox[formcontrolname="ProjectName"] input.mat-input-element');
+        
+                        // Check if the input field is empty
+                        goalTypeField.should('be.visible').invoke('val').then(value => {
+                            if (value === '') {
+                                cy.log('Input field is empty, invalid form submission');
+                            } else {
+                                // If the field is not empty, you can proceed with your actions
+                                goalTypeField.clear().type(getRandomText(8));
+                            }
+                        });
+            });
+           
+        })  
+
+        // Scenario: Valid Target Type Form Submission
+    When("Fill the Fields in the Target Type Form", ()=>{
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('a#TargetType-tab')
+                .click();
+        });
+        function generateRandomText(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        const randomText = generateRandomText(10);
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                .should('be.visible')
+                .type(randomText);
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                .should('be.visible')
+                .type('th');
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_DESCRIPTION"] input.mat-input-element')
+                .should('be.visible')
+                .type('th');
+        });
+    })
+     Then("Check the Data is Submitted", () => {
+            cy.iframe('#commonFormRender').then($iframe => {
+                const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+                submitButton.should('be.visible').click({force:true,multiple: true});
+                cy.wait(3000)
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                if (toaster.length > 0) {
+                  cy.wrap(toaster).contains('Success');
+                } else {
+                  cy.log('Toaster element not found');
+                }
+              });
+           
+        })  
+
+
+    // Scenario: Already Existing Target Type Name
+    When("Fill the Fields in  Target Type Form", ()=>{
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('a#TargetType-tab')
+                .click();
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                .should('be.visible')
+                .type('th');
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                .should('be.visible')
+                .type('th');
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="CMT_DESCRIPTION"] input.mat-input-element')
+                .should('be.visible')
+                .type('th');
+        });
+    })
+     Then("Check whether the Target Name Already Exists", () => {
+            cy.iframe('#commonFormRender').then($iframe => {
+                const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+                submitButton.should('be.visible').click({force:true,multiple: true});
+                cy.wait(3000)
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                if (toaster.length > 0) {
+                  cy.wrap(toaster).contains('Already Exist');
+                } else {
+                  cy.log('Toaster element not found');
+                }
+              });
+           
+        })  
+
+        // Scenario: Valid Target Type Form Submission With Adding Target Type
+        When("Fill the Fields in the Target Type Form With Adding Target Type", ()=>{
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('a#TargetType-tab')
+                    .click();
+            });
+            function generateRandomText(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                const charactersLength = characters.length;
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+            const randomText = generateRandomText(10);
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                    .should('be.visible')
+                    .type(randomText);
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('th');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_DESCRIPTION"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('th');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+                if (addButton.length > 0) {
+                    cy.wrap(addButton).click();
+                } else {
+                    cy.log('Add button not found');
+                }
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox input.mat-input-element')
+                    .each($input => {
+                        cy.wrap($input).type('Your description here', { force: true });
+                    });
+            });
+        })
+         Then("Check Data Submits", () => {
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+                    submitButton.should('be.visible').click({force:true,multiple: true});
+                    cy.wait(3000)
+                });
+                
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                    if (toaster.length > 0) {
+                      cy.wrap(toaster).contains('Success');
+                    } else {
+                      cy.log('Toaster element not found');
+                    }
+                  });
+               
+            })  
+
+        // Scenario: Invalid Target Type Form Submission
+        When("Fill the Fields in  TargetType Form", ()=>{
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('a#TargetType-tab')
+                    .click();
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('{backspace}');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('{backspace}');
+            });
+            
+        })
+         Then("Check the Data is Submitted or not", () => {
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+                    submitButton.should('be.visible').click({force:true,multiple: true});
+                    cy.wait(3000)
+                    const goalTypeField = cy.wrap($iframe).find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                    goalTypeField.should('be.visible').invoke('val').then(value => {
+                        if (value === '') {
+                            cy.log('Input field is empty, invalid form submission');
+                        } else {
+                            // If the field is not empty, you can proceed with your actions
+                            goalTypeField.clear().type(getRandomText(8));
+                        }
+                    });
+                });
+            })  
+
+        // Scenario: Check Delete Button
+        When("Fill the Field in  TargetType Form", ()=>{
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('a#TargetType-tab')
+                    .click();
+            });
+            function generateRandomText(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                const charactersLength = characters.length;
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+            const randomText = generateRandomText(10);
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                    .should('be.visible')
+                    .type(randomText);
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('th');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox[formcontrolname="CMT_DESCRIPTION"] input.mat-input-element')
+                    .should('be.visible')
+                    .type('th');
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+                if (addButton.length > 0) {
+                    cy.wrap(addButton).click();
+                } else {
+                    cy.log('Add button not found');
+                }
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                cy.wrap($iframe)
+                    .find('aestextbox input.mat-input-element')
+                    .each($input => {
+                        cy.wrap($input).type('Your description here', { force: true });
+                    });
+            });
+        })
+         Then("Check Delete Button Works", () => {
+           
+            cy.iframe('#commonFormRender').then($iframe => {
+                const submitButton = cy.wrap($iframe).find('i.mat-tooltip-trigger.fa.fa-trash');
+                submitButton.should('be.visible').click({force:true,multiple: true});
+                cy.wait(3000)
+            });
+            cy.iframe('#commonFormRender').then($iframe => {
+                // Find the dialog container within the iframe
+                const dialogContainer = $iframe.contents().find('mat-dialog-container');
+            
+                // Check if the dialog container exists
+                if (dialogContainer.length > 0) {
+                    // Find the dialog title within the dialog container
+                    const dialogTitle = dialogContainer.find('.mat-dialog-title');
+            
+                    // Check if the dialog title contains the desired text
+                    if (dialogTitle.text().includes('Do you want to delete this record ?')) {
+                        cy.log('Dialog title found: "Do you want to delete this record ?"');
+                    } else {
+                        cy.log('Dialog title not found');
+                    }
+                } else {
+                    cy.log('Dialog container not found');
+                }
+            }); 
+               
+            })  
+
+        // Scenario: Check Data Deleted Successfully
+            When("Fill All the Fields in  TargetType Form", ()=>{
+                cy.iframe('#commonFormRender').then($iframe => {
+                    cy.wrap($iframe)
+                        .find('a#TargetType-tab')
+                        .click();
+                });
+                function generateRandomText(length) {
+                    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    let result = '';
+                    const charactersLength = characters.length;
+                    for (let i = 0; i < length; i++) {
+                        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                    }
+                    return result;
+                }
+                const randomText = generateRandomText(10);
+                cy.iframe('#commonFormRender').then($iframe => {
+                    cy.wrap($iframe)
+                        .find('aestextbox[formcontrolname="CMT_MEASURE_TYPE_NAME"] input.mat-input-element')
+                        .should('be.visible')
+                        .type(randomText);
+                });
+                cy.iframe('#commonFormRender').then($iframe => {
+                    cy.wrap($iframe)
+                        .find('aestextbox[formcontrolname="CMT_CODE"] input.mat-input-element')
+                        .should('be.visible')
+                        .type('th');
+                });
+                cy.iframe('#commonFormRender').then($iframe => {
+                    cy.wrap($iframe)
+                        .find('aestextbox[formcontrolname="CMT_DESCRIPTION"] input.mat-input-element')
+                        .should('be.visible')
+                        .type('th');
+                });
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+                    if (addButton.length > 0) {
+                        cy.wrap(addButton).click();
+                    } else {
+                        cy.log('Add button not found');
+                    }
+                });
+                cy.iframe('#commonFormRender').then($iframe => {
+                    cy.wrap($iframe)
+                        .find('aestextbox input.mat-input-element')
+                        .each($input => {
+                            cy.wrap($input).type('Your description here', { force: true });
+                        });
+                });
+            })
+             Then("Check Data Deleted Successfully", () => {
+               
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const submitButton = cy.wrap($iframe).find('i.mat-tooltip-trigger.fa.fa-trash');
+                    submitButton.should('be.visible').click({force:true,multiple: true});
+                    cy.wait(3000)
+                });
+                cy.iframe('#commonFormRender').then($iframe => {
+                    // Find the dialog container within the iframe
+                    const dialogContainer = $iframe.contents().find('mat-dialog-container');
+                
+                    // Check if the dialog container exists
+                    if (dialogContainer.length > 0) {
+                        // Find the "YES" button within the dialog container by its text content
+                        const yesButton = dialogContainer.find('span.mat-button-wrapper:contains("YES")');
+                
+                        // Check if the "YES" button exists
+                        if (yesButton.length > 0) {
+                            // Click the "YES" button
+                            cy.wrap(yesButton).click();
+                        } else {
+                            cy.log('YES button not found');
+                        }
+                    } else {
+                        cy.log('Dialog container not found');
+                    }
+                });
+                cy.wait(3000)
+                cy.iframe('#commonFormRender').then($iframe => {
+                    const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+                    if (toaster.length > 0) {
+                      cy.wrap(toaster).contains('Deleted successfully!');
+                    } else {
+                      cy.log('Toaster element not found');
+                    }
+                  });
+                
+             })    
+
+
+        // Scenario: Valid Competency Bank Form Submission       
+When("Fill the Fields in the Competency Bank Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CompetencyBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Competency"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' 17. Customer Obsessed - Empathizes with customers ')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Comptype"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' New competency type ')
+            .click({ force: true });
+    });
+})
+ Then("Check the Data is Submitted", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+ })    
+
+    // Scenario: Competency Name Already Exists
+When("Fill the Field in the Competency Bank Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CompetencyBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompetencyName"] input.mat-input-element')
+            .should('be.visible')
+            .type('t');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompDescription"] textarea.mat-input-element') // Find the textarea inside the aestextbox element
+            .should('be.visible') 
+            .type('t'); 
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompWeightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('5');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Comptype"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('Personal')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    
+})
+ Then("Check whether the Competency Name Already Exists Pop-up", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('already exist');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+ })    
+
+        // Scenario: Invalid Competency Bank Form Submission
+When("Empty the Fields in the Competency Bank Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CompetencyBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompetencyName"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompDescription"] textarea.mat-input-element') // Find the textarea inside the aestextbox element
+            .should('be.visible') 
+            .type('{backspace}'); 
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CompWeightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.wait(2000)
+    
+})
+ Then("Check the Data is Submitted or not", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const goalTypeField = cy.wrap($iframe).find('aestextbox[formcontrolname="CompetencyName"] input.mat-input-element')
+    
+        // Check if the input field is empty
+        goalTypeField.should('be.visible').invoke('val').then(value => {
+            if (value === '') {
+                cy.log('Input Fields are Empty, Invalid form submission');
+            } else {
+                // If the field is not empty, you can proceed with your actions
+                goalTypeField.clear().type(getRandomText(8));
+            }
+        });
+    })
+    
+ })    
+
+// Scenario: Valid Competency Bank Form Submission With Adding Competency Type
+When("Fill the Fields in the Competency Bank Form With Adding Competency Type", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CompetencyBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Competency"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' 17. Customer Obsessed - Empathizes with customers ')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Comptype"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' New competency type ')
+            .click({ force: true });
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aesbutton[type="Submit"][mlmkey="CORE_GEN_NbtnAdd"] button');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+    cy.wait(2000)
+    
+})
+ Then("Check whether the Data is Submitted or not", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+      cy.wait(2000)
+      cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('.close mat-icon');
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click();
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+    cy.wait(2000) 
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    }); 
+
+ })    
+
+// Scenario: Check Back Button in Competency Type Form
+When("Fill the Fields in the Competency Bank Form With Adding Competency Types", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CompetencyBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Competency"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' 17. Customer Obsessed - Empathizes with customers ')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="Comptype"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' New competency type ')
+            .click({ force: true });
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+    cy.wait(2000)
+    
+})
+ Then("Check Back Button navigates again to Competency Bank Form", () => {
+    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const backButton = $iframe.contents().find('div.col.footer-btn-left.text-left aesbutton[mlmkey="CORE_GEN_Nbtnback"] button');
+        if (backButton.length > 0) {
+            cy.wrap(backButton).click();
+        } else {
+            cy.log('Back button not found');
+        }
+    });
+    
+    cy.wait(2000) 
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.log('Back button worked');
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+ })    
+
+// Scenario: Valid Goal Bank Form Submission
+When("Fill the Fields in the Goal Bank Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#GoalBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="GoalTypeDropdown"] mat-select');
+
+        dropdown.should('be.visible').eq(1).click({multiple:true,force: true});
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains(' Goal from data upload ')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        // Find the label with text "Target"
+        cy.wrap($iframe)
+            .contains('label', 'Target')
+            .invoke('attr', 'for')
+            .then((inputId) => {
+                // Use the 'for' attribute value to find the corresponding input field
+                cy.wrap($iframe)
+                    .find(`#${inputId}`)
+                    .should('be.visible')
+                    .type('5', { force: true });
+            });
+    });
+    
+cy.wait(3000)    
+    
+})
+ Then("Check the Data is Submitted in Goal Bank Form", () => {
+    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+
+})
+
+// Scenario: Invalid Goal Bank Form Submission
+When("Empty the Fields in the Goal Bank Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#GoalBank-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element').eq(1)
+            .should('be.visible')
+            .type('{backspace}');
+    });
+cy.wait(3000)    
+    
+})
+ Then("Check the Empty Data is Submitted in Goal Bank Form", () => {
+    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const goalnameField = cy.wrap($iframe).find('aestextbox[formcontrolname="GoalName"] input.mat-input-element').eq(1)
+    
+        // Check if the input field is empty
+        goalnameField.should('be.visible').invoke('val').then(value => {
+            if (value === '') {
+                cy.log('Input Fields are empty, invalid form submission');
+            } else {
+                // If the field is not empty, you can proceed with your actions
+                goalnameField.clear().type(getRandomText(8));
+            }
+        });
+    })
+
+})
+
+// Scenario: Valid Exclusion Form Submission
+When("Fill the Fields", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#controlcentretraining-tab')
+            .click();
+    });
+cy.wait(3000) 
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the tab with the text "Inclusion/exclusion appraisal" and click on it
+    cy.wrap($iframe)
+        .contains('div.mat-tab-label-content', 'Inclusion/exclusion appraisal')
+        .should('be.visible')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="CALENDAR_ID"] mat-select').eq(1);
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains(' Email Template Calendar ')
+        .click({ force: true });
+});
+cy.wait(2000)
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the dropdown using the specified selector
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PARAM_TYPE"] mat-select');
+
+    // Ensure the dropdown is visible and click to open it
+    dropdown.should('be.visible').click();
+
+    // Find the option containing the text 'test' and click it
+    cy.wrap($iframe).find('mat-option').contains('test').click({ force: true });
+
+    // Verify that the correct option was selected by checking the text
+    dropdown.should('contain.text', 'test');
+});
+
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="EMPLOYEE_ID"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('01500-M S Dhoni')
+        .click({ force: true });
+});
+    
+})
+ Then("Check the Data", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+})
+
+// Scenario: Without Selecting Employee in Exclusion Form
+When("Fill the Appraisal and Performance Fields", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#controlcentretraining-tab')
+            .click();
+    });
+cy.wait(3000) 
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the tab with the text "Inclusion/exclusion appraisal" and click on it
+    cy.wrap($iframe)
+        .contains('div.mat-tab-label-content', 'Inclusion/exclusion appraisal')
+        .should('be.visible')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="CALENDAR_ID"] mat-select').eq(1);
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains(' Email Template Calendar ')
+        .click({ force: true });
+});
+cy.wait(2000)
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the dropdown using the specified selector
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PARAM_TYPE"] mat-select');
+
+    // Ensure the dropdown is visible and click to open it
+    dropdown.should('be.visible').click();
+
+    // Find the option containing the text 'test' and click it
+    cy.wrap($iframe).find('mat-option').contains('test').click({ force: true });
+
+    // Verify that the correct option was selected by checking the text
+    dropdown.should('contain.text', 'test');
+});
+    
+})
+ Then("Check Data Submitted", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Select employee');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+})
+
+// Scenario: Valid Inclusion Form Submission
+When("Fill Inclusion Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#controlcentretraining-tab')
+            .click();
+    });
+cy.wait(3000) 
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the tab with the text "Inclusion/exclusion appraisal" and click on it
+    cy.wrap($iframe)
+        .contains('div.mat-tab-label-content', 'Inclusion/exclusion appraisal')
+        .should('be.visible')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the radio button by its label text 'Inclusion' and click it
+    cy.wrap($iframe)
+        .find('mat-radio-button .mat-radio-label')
+        .contains('Inclusion')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="CALENDAR_ID"] mat-select').eq(1);
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains(' Email Template Calendar ')
+        .click({ force: true });
+});
+cy.wait(2000)
+cy.iframe('#commonFormRender').then($iframe => {
+    // Find the dropdown using the specified selector
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PARAM_TYPE"] mat-select');
+
+    // Ensure the dropdown is visible and click to open it
+    dropdown.should('be.visible').click();
+
+    // Find the option containing the text 'test' and click it
+    cy.wrap($iframe).find('mat-option').contains('Emai Template').click({ force: true });
+
+    // Verify that the correct option was selected by checking the text
+    dropdown.should('contain.text', 'Emai Template');
+});
+cy.wait(2000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="EMPLOYEE_ID"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('aes sed drf')
+        .click({ force: true });
+});
+})
+ Then("Check the Datas", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = cy.wrap($iframe).find('aesbutton[type="Submit"] button');
+        submitButton.should('be.visible').click({force:true,multiple: true});
+        cy.wait(3000)
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+})
+
+
+// Scenario: Valid Coach Form Submission
+When("Fill Coach Form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CoachandMentor-tab')
+            .click();
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PROG_TRAIN_ID"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('java')
+            .click({ force: true });
+    });
+});
+Then("Checkk the Data Sumitted", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+          cy.wrap(submitButton).click( {multiple: true,force: true} );
+        } else {
+          cy.log('Submit button not found');
+        }
+      });
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+    })    
+
+// // Scenario: Valid Coach Form Submission with Manual Details
+When("Fill Coach Form manually", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CoachandMentor-tab')
+            .click();
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PROG_TRAIN_ID"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('java')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    function getRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+    const randomText = getRandomText(8);                         
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="PROG_TRAIN_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+    const descriptionTextArea = $iframe.find('div.row div.col aestextbox textarea');
+    descriptionTextArea.val('Your text here');
+});
+    
+});
+Then("Checkk the Data Sumitted or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+          cy.wrap(submitButton).click( {multiple: true,force: true} );
+        } else {
+          cy.log('Submit button not found');
+        }
+      });
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+    })    
+
+// Scenario: Invalid Coach Form Submission
+    When("Empty Coach Form Input Fields", ()=>{
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('a#CoachandMentor-tab')
+                .click();
+        });                    
+        cy.iframe('#commonFormRender').then($iframe => {
+            cy.wrap($iframe)
+                .find('aestextbox[formcontrolname="PROG_TRAIN_NAME"] input.mat-input-element')
+                .should('be.visible')
+                .type('{backspace}');
+        });
+        cy.iframe('#commonFormRender').then($iframe => {
+        const descriptionTextArea = $iframe.find('div.row div.col aestextbox textarea');
+        descriptionTextArea.val('{backspace}');
+    });
+        
+    });
+    Then("Checkk the Data Submission", () => {
+        cy.wait(2000)
+        cy.iframe('#commonFormRender').then($iframe => {
+            const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+            if (submitButton.length > 0) {
+              cy.wrap(submitButton).click( {multiple: true,force: true} );
+            } else {
+              cy.log('Submit button not found');
+            }
+          });
+        cy.wait(3000)
+        cy.iframe('#commonFormRender').then($iframe => {
+            const CoachExpertise = cy.wrap($iframe).find('aestextbox[formcontrolname="PROG_TRAIN_NAME"] input.mat-input-element')
+        
+            // Check if the input field is empty
+            CoachExpertise.should('be.visible').invoke('val').then(value => {
+                if (value === '') {
+                    cy.log('CoachExpertise field is empty, invalid form submission');
+                } else {
+                    // If the field is not empty, you can proceed with your actions
+                    CoachExpertise.clear().type(getRandomText(8));
+                }
+            });
+        })
+        })
+      
+// Scenario: Coaching Expertise Already Exists
+When("Fill all the  Coach Form Input Fields", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#CoachandMentor-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="PROG_TRAIN_ID"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('Angular')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('mat-icon.mat-icon:contains("close")').eq(1);
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click({ multiple: true, force: true });
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+        
+    cy.wait(2000)                          
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="PROG_TRAIN_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('javafEtTukJinzk7eeITKxrx4A9Cq1o7gSxR3dgg');
+    });
+
+    
+});
+Then("Checkk the Data Submissions", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+          cy.wrap(submitButton).click( {multiple: true,force: true} );
+        } else {
+          cy.log('Submit button not found');
+        }
+      });
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('already exist');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+    })
+
+// Scenario: Valid Questionanaire Form Submission
+When("Fill all the  Questionanaire Form Input Fields", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[mlmkey="PACE_DYN_Dselect"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('New')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)   
+});
+Then("Ensure Data Submitted or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+          cy.wrap(submitButton).click( {multiple: true,force: true} );
+        } else {
+          cy.log('Submit button not found');
+        }
+      });
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+    })
+
+// Scenario: Invalid Questionanaire Form Submission
+When("Empty all the  Questionanaire Form Input Fields", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.wait(2000)
+        
+    cy.wait(2000)                          
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="SECTION_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+});
+Then("Ensure Data Submission", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+        if (submitButton.length > 0) {
+          cy.wrap(submitButton).click( {multiple: true,force: true} );
+        } else {
+          cy.log('Submit button not found');
+        }
+      });
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Fill the Mandatory Fields');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+    })
+
+// Scenario: Adding Without Level in  Questionanaire Form       
+When("Click Add Button and adding without level", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[mlmkey="PACE_DYN_Dselect"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('New')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    }); 
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('sample');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_DISPLAY_ORDER"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.wait(2000)
+
+    
+                
+});
+Then("Ensure it works", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('div.footer-btn-right aesbutton[mlmkey="CORE_GEN_NbtnAdd"] button.mat-button');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+    
+   cy.wait(2000)
+   cy.iframe('#commonFormRender').then($iframe => {
+    const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+    if (toaster.length > 0) {
+      cy.wrap(toaster).contains('Select atlest one level.');
+    } else {
+      cy.log('Toaster element not found');
+    }
+  });
+    })
+
+// Scenario: Check Add Button
+When("Click Add Button", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[mlmkey="PACE_DYN_Dselect"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('New')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    }); 
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('sample');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_DISPLAY_ORDER"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('mat-row.mat-row') // Find all mat-row elements
+            .each(($row) => { // Iterate over each mat-row element
+                cy.wrap($row)
+                    .find('mat-checkbox.mat-checkbox') // Find mat-checkbox within each mat-row
+                    .should('be.visible') // Ensure it's visible
+                    .click( {multiple: true}); // Click on the mat-checkbox
+            });
+    });            
+});
+Then("Ensure it works or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('div.footer-btn-right aesbutton[mlmkey="CORE_GEN_NbtnAdd"] button.mat-button');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+   cy.wait(2000)
+   cy.iframe('#commonFormRender').then($iframe => {
+    const submitButton = $iframe.contents().find('button.mat-button:contains("Submit")');
+    if (submitButton.length > 0) {
+      cy.wrap(submitButton).click( {multiple: true,force: true} );
+    } else {
+      cy.log('Submit button not found');
+    }
+  });
+cy.wait(3000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+    if (toaster.length > 0) {
+      cy.wrap(toaster).contains('Success');
+    } else {
+      cy.log('Toaster element not found');
+    }
+  });
+    })
+    
+
+// Scenario: Check Edit Button      
+When("Click Edit Button", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[mlmkey="PACE_DYN_Dselect"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('New')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    }); 
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('sample');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_DISPLAY_ORDER"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('mat-row.mat-row') // Find all mat-row elements
+            .each(($row) => { // Iterate over each mat-row element
+                cy.wrap($row)
+                    .find('mat-checkbox.mat-checkbox') // Find mat-checkbox within each mat-row
+                    .should('be.visible') // Ensure it's visible
+                    .click( {multiple: true}); // Click on the mat-checkbox
+            });
+    });            
+});
+Then("Ensure Data Edited or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('div.footer-btn-right aesbutton[mlmkey="CORE_GEN_NbtnAdd"] button.mat-button');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+   cy.wait(2000)
+   cy.iframe('#commonFormRender').then($iframe => {
+    $iframe.contents().find('div.mat-menu-trigger.moreicon').eq(3).click();
+  });
+  cy.wait(2000)
+  cy.iframe('#commonFormRender').then($iframe => {
+    $iframe.contents().find('button.mat-menu-item').click();
+  });
+  cy.iframe('#commonFormRender').find('.mat-form-field-suffix').eq(0).click();
+
+  cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[formcontrolname="CONTROL_NAME"] input.mat-input-element')
+        .should('be.visible')
+        .type('samples');
+});
+cy.log('Edited')
+cy.wait(1000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const addButton = $iframe.contents().find('div.footer-btn-right aesbutton[mlmkey="CORE_GEN_NbtnAdd"] button.mat-button');
+    if (addButton.length > 0) {
+        cy.wrap(addButton).click();
+    } else {
+        cy.log('Add button not found');
+    }
+});
+    
+    })
+
+// Scenario: Check Delete Button
+When("Click Delete Button", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#Dynamicsection-tab')
+            .click();
+    });  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[mlmkey="PACE_DYN_Dselect"] mat-select');
+    
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('New')
+            .click({ force: true });
+    }); 
+    cy.wait(2000)  
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('aeslabel[mlmkey="CORE_GEN_NbtnAdd"] mat-label');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    }); 
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_NAME"] input.mat-input-element')
+            .should('be.visible')
+            .type('sample');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="CONTROL_DISPLAY_ORDER"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('mat-row.mat-row') // Find all mat-row elements
+            .each(($row) => { // Iterate over each mat-row element
+                cy.wrap($row)
+                    .find('mat-checkbox.mat-checkbox') // Find mat-checkbox within each mat-row
+                    .should('be.visible') // Ensure it's visible
+                    .click( {multiple: true}); // Click on the mat-checkbox
+            });
+    });            
+});
+Then("Ensure Data Deleted or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const addButton = $iframe.contents().find('div.footer-btn-right aesbutton[mlmkey="CORE_GEN_NbtnAdd"] button.mat-button');
+        if (addButton.length > 0) {
+            cy.wrap(addButton).click();
+        } else {
+            cy.log('Add button not found');
+        }
+    });
+   cy.wait(2000)
+   cy.iframe('#commonFormRender').then($iframe => {
+    $iframe.contents().find('div.mat-menu-trigger.moreicon').eq(3).click();
+  });
+  cy.wait(2000)
+  cy.iframe('#commonFormRender').find('button[role="menuitem"]').eq(1).click();
+  cy.wait(1000)
+  cy.iframe('#commonFormRender').find('button.mat-button').contains('YES').click();
+  cy.wait(3000)
+  cy.iframe('#commonFormRender').then($iframe => {
+      const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+      if (toaster.length > 0) {
+        cy.wrap(toaster).contains('Deleted successfully!');
+      } else {
+        cy.log('Toaster element not found');
+      }
+    });
+    })
+
+
+Given("enter the career aspiration pagewith {string}",(userDetails)=>{
+    
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user2.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user2.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user2.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    cy.get('#mat-input-3').type('career aspiration')
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+    cy.get('.mat-option-text').click();
+})
+      
+// Scenario: Valid Career Aspiration Form
+When("Fill career details form", ()=>{
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const textarea = $iframe.contents().find('.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea').eq(0);
+        if (textarea.length > 0) {
+            cy.wrap(textarea).type('Your text here');
+        } else {
+            cy.log('Textarea element not found');
+        }
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const textarea = $iframe.contents().find('.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea').eq(1);
+        if (textarea.length > 0) {
+            cy.wrap(textarea).type('Your text here');
+        } else {
+            cy.log('Textarea element not found');
+        }
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const textarea = $iframe.contents().find('.mat-input-element.mat-form-field-autofill-control.cdk-textarea-autosize.autogrowTextarea').eq(2);
+        if (textarea.length > 0) {
+            cy.wrap(textarea).type('Your text here');
+        } else {
+            cy.log('Textarea element not found');
+        }
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('a#coaching-tab')
+            .click();
+    });
+
+   cy.wait(2000)
+   
+
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#competency-tab')
+        .click();
+});
+
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#competency-tab')
+        .click();
+});
+cy.wait(2000)
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#otj-tab')
+        .click();
+});
+});
+Then("valid submission", () => {
+    // cy.iframe('#commonFormRender').then($iframe => {
+    //     const sendForApprovalButton = $iframe.contents().find('.BtnSave');
+    //     sendForApprovalButton.click();
+    // });
+    
+});
+
+// Scenario: Invalid Career Aspiration Form
+When("Fill career detailss form", ()=>{
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').find('div.mat-form-field-suffix').eq(0).click();
+    cy.iframe('#commonFormRender').find('div.mat-form-field-suffix').eq(1).click();
+
+});
+Then("valid submissions", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        const sendForApprovalButton = $iframe.contents().find('.BtnSave');
+        sendForApprovalButton.click();
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Warning');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+});
+
+
+Given("enter the Goal Setting Formwith {string}",(userDetails)=>{
+    
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user2.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user2.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user2.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    cy.get('#mat-input-3').type('goals')
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+    cy.get('.mat-option-text').eq(0).click();
+    
+
+})
+
+// // Scenario: Valid Goal Setting Form
+When("Fill Goal details form", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aeslabel[mlmkey="PACE_GLS_BAddGL"]')
+            .click({ force: true });
+    });
+    cy.wait(3000)
+    function getRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+        const randomText = getRandomText(8); // Generate random text of 8 characters
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalStatement"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('hh');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="Weightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="GoalType"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('aa1')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe).find('aesdatepicker[formcontrolname="StartDate"]').type('29-May-2024');
+        cy.wrap($iframe).find('aesdatepicker[formcontrolname="TargetDate"]').type('30-May-2024');
+       
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="BscPerspective"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('Customer12')
+            .click({ force: true });
+    });
+cy.wait(1000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="SuccessMeasureDetails"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Customer satisfaction')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="FrequencyOfReview"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Monthly')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#Milestones-tab')
+        .click();
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[mlmkey="PACE_GLS_ExPoM"]')
+        .should('be.visible')
+        .type('1');
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[mlmkey="PACE_GLS_ExPoDe"]')
+        .should('be.visible')
+        .type('1');
+        cy.wrap($iframe).find('aesdatepicker[mlmkey="PACE_GLS_ExPoCD"]').type('23-May-2024');
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#Confirm-tab')
+        .click();
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aesbutton[mlmkey="CORE_GEN_NbtnDraft"] > button')
+        .click({ force: true });
+});
+
+});
+Then("Goal valid submission", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('.close mat-icon');
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click();
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+});
+
+// // Scenario: Invalid Goal Setting Form
+When("Empty Goal details form", ()=>{ // Generate random text of 8 characters
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aeslabel[mlmkey="PACE_GLS_BAddGL"]')
+        .click({ force: true });
+});
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalStatement"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="Weightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('{backspace}');
+    });
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aesbutton[mlmkey="CORE_GEN_NbtnDraft"] > button')
+        .click({ force: true });
+});
+
+});
+Then("Goal valid submission or not", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Warning');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+     
+});
+
+// Scenario: Check Target Date
+When("Check Target Date", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aeslabel[mlmkey="PACE_GLS_BAddGL"]')
+            .click({ force: true });
+    });
+    cy.wait(3000)
+    function getRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+        const randomText = getRandomText(8); // Generate random text of 8 characters
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalStatement"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('hh');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="Weightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="GoalType"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('aa1')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe).find('aesdatepicker[formcontrolname="StartDate"]').type('29-May-2024');
+        cy.wrap($iframe).find('aesdatepicker[formcontrolname="TargetDate"]').type('30-May-2024');
+       
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="BscPerspective"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('Customer12')
+            .click({ force: true });
+    });
+cy.wait(1000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="SuccessMeasureDetails"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Customer satisfaction')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="FrequencyOfReview"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Monthly')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#Milestones-tab')
+        .click();
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('#mat-checkbox-2-input')
+        .click({ force: true });
+});
+
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aesbutton[mlmkey="CORE_GEN_NbtnDraft"] > button')
+        .click({ force: true });
+});
+
+});
+Then("Error Pop-up", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Warning');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('.close mat-icon');
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click();
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+});
+
+// // Scenario: Check Edit Goal
+When("Check Edit Goal", ()=>{
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        $iframe.contents().find('aesmenu.actions-menu mat-icon[title="Actions"]').eq(1).click();
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        $iframe.contents().find('button.MenulistItem').click();
+      });
+      function getRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+        const randomText = getRandomText(2); // Generate random text of 8 characters
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    let inputFieldValue;
+
+    cy.iframe('#commonFormRender').then($iframe => {
+        const $inputField = $iframe.contents().find('aestextbox[formcontrolname="GoalName"] input.mat-input-element');
+        inputFieldValue = $inputField.val(); 
+    });
+  cy.wait(1000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aesbutton[mlmkey="CORE_GEN_NbtnDraft"] > button')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('.close mat-icon');
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click();
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const $tdElement = $iframe.contents().find('td.mat-cell.data-name.mat-column-GS_GOAL_SHORT_TITLE').eq(1);
+        const tdTextContent = $tdElement.text().trim();
+        expect(inputFieldValue).to.equal(tdTextContent);
+        cy.log('Data Edited');
+    });
+    
+});
+Then("Check Data Edited", () => {
+    cy.log('Edited Successfully')
+});
+
+// // Scenario: Check Delete Goal
+When("Check Delete Goal", ()=>{
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        $iframe.contents().find('aesmenu.actions-menu mat-icon[title="Actions"]').eq(1).click();
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        $iframe.contents().find('button.MenulistItem').eq(1).click();
+    });
+    
+});
+Then("Check Data Deleted", () => {
+    cy.iframe('#commonFormRender').then($iframe => {
+        $iframe.contents().find('button.BtnPopupSubmit').click();
+    });
+    
+    cy.wait(3000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Successfully deleted');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+});
+
+// Scenario: Valid Measurable Goal Form
+When("Check qunatitative Target", ()=>{
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aeslabel[mlmkey="PACE_GLS_BAddGL"]')
+            .click({ force: true });
+    });
+    cy.wait(3000)
+    function getRandomText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+        const randomText = getRandomText(8); // Generate random text of 8 characters
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalName"] input.mat-input-element')
+            .should('be.visible')
+            .type(randomText);
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="GoalStatement"] textarea.mat-input-element')
+            .should('be.visible')
+            .type('hh');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        cy.wrap($iframe)
+            .find('aestextbox[formcontrolname="Weightage"] input.mat-input-element')
+            .should('be.visible')
+            .type('1');
+    });
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="GoalType"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('aa1')
+            .click({ force: true });
+    });
+    cy.wait(2000)
+    
+    cy.iframe('#commonFormRender').then($iframe => {
+        const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="BscPerspective"] mat-select');
+
+        dropdown.should('be.visible').click();
+        cy.wrap($iframe)
+            .find('mat-option')
+            .contains('Customer12')
+            .click({ force: true });
+    });
+cy.wait(1000)
+cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="SuccessMeasureDetails"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Customer satisfaction')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+
+    // Clicking the mat-radio-button within an iframe by its ID
+cy.iframe('#commonFormRender').then($iframe => {
+    // Access the mat-radio-button element within the iframe by its ID
+    cy.wrap($iframe).find('#mat-radio-6').click();
+  });
+  cy.iframe('#commonFormRender').then($iframe => {
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="GoalUnit"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Asset2')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[formcontrolname="GoalTarget"] input.mat-input-element')
+        .should('be.visible')
+        .type('1');
+});
+    const dropdown = cy.wrap($iframe).find('aesdropdownlist[formcontrolname="FrequencyOfReview"] mat-select');
+
+    dropdown.should('be.visible').click();
+    cy.wrap($iframe)
+        .find('mat-option')
+        .contains('Monthly')
+        .click({ force: true });
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe).find('aesdatepicker[formcontrolname="StartDate"]').type('23-May-2024');
+    cy.wrap($iframe).find('aesdatepicker[formcontrolname="TargetDate"]').type('29-May-2024');
+   
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#Milestones-tab')
+        .click();
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[mlmkey="PACE_GLS_ExPoM"]')
+        .should('be.visible')
+        .type('1');
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aestextbox[mlmkey="PACE_GLS_ExPoDe"]')
+        .should('be.visible')
+        .type('1');
+        cy.wrap($iframe).find('aesdatepicker[mlmkey="PACE_GLS_ExPoCD"]').type('30-Jun-2024');
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('a#Confirm-tab')
+        .click();
+});
+cy.iframe('#commonFormRender').then($iframe => {
+    cy.wrap($iframe)
+        .find('aesbutton[mlmkey="CORE_GEN_NbtnDraft"] > button')
+        .click({ force: true });
+});
+
+});
+Then("Pop-up Success", () => {
+    cy.wait(2000)
+    cy.iframe('#commonFormRender').then($iframe => {
+        const toaster = $iframe.contents().find('mat-dialog-container aestoaster');
+        if (toaster.length > 0) {
+          cy.wrap(toaster).contains('Success');
+        } else {
+          cy.log('Toaster element not found');
+        }
+      });
+      cy.iframe('#commonFormRender').then($iframe => {
+        const closeButton = $iframe.contents().find('.close mat-icon');
+        if (closeButton.length > 0) {
+            cy.wrap(closeButton).click();
+        } else {
+            cy.log('Close button not found');
+        }
+    });
+})
+
+//1.submit form with empty credentials
+Given("enter the Performace Master Form with {string}",(userDetails)=>{
+    
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user2.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user2.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user2.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    
+
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+}) 
+//1.submit form with empty credentials
+//test submission
+ 
+When('test Submission without otj',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()  
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesbutton[mlmkey="Start adding competency"]').click()
+    /*cy.iframe().find('aestoaster.ng-star-inserted').then($warning => {
+        if ($warning.length > 0) {
+            cy.wrap($warning).within(() => {
+                cy.get('.close').click();
+            });
+        } else {
+            cy.log('Element not found');
+        }
+    });*/
+    cy.wait(1000)
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()  
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(2000)
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click() //add competency
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(1).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio //1st option
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    
+    cy.wait(200)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PFEmpR"]').click() // rating
+    cy.iframe().find('mat-option[role="option"]').eq(0).click() //emp rating
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').clear()
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').type('20')
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('testttt')
+    cy.iframe().find('#training-tab').click()
+    cy.iframe().find('aescheckbox[mlmkey="PACE_COMA_NOTSURE"]').eq(0).click()
+    //coaching
+    cy.iframe().find('#coaching-tab').click()
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDCoACH"]').eq(0).click()
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCoEx"]').click()
+    cy.iframe().find('mat-option[role="option"]').first().click() //coaching expertise
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCNa"]').click() //coachname
+    cy.iframe().find('mat-option[role="option"]').first().click()
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTCDesc"]').type('this is test') //description
+ 
+     
+ 
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click() //draft
+   
+ 
+})
+Then('Validate Success in Competency',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Success');
+        })
+        cy.get('.close').click()
+    })
+})
+ 
+// //empty submission
+When('Empty Submission',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+ 
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(2).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    cy.wait(200)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click()
+   
+})
+Then('Validate Empty Error in Competency',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Warning');
+        })
+        cy.get('[class="message"]').should('contain.text', 'Fill the Mandatory Fields');
+        cy.get('.close').click()
+    })
+})
+ 
+ 
+// //2.submit with empty training
+ 
+When('Enter details with empty training',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+ 
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(2).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    cy.wait(200)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PFEmpR"]').click() // rating
+    cy.iframe().find('mat-option[role="option"]').eq(0).click() //emp rating
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').clear()
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').type('20')
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('testttt')
+    cy.iframe().find('#training-tab').click()
+    cy.iframe().find('#training-tab').click()
+    cy.iframe().find('aescheckbox[mlmkey="PACE_COMA_NOTSURE"]').eq(0).click() //ckeckbox to not sure in training
+    //coaching
+    cy.iframe().find('#coaching-tab').click()
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDCoACH"]').click()
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCoEx"]').click()
+    cy.iframe().find('mat-option[role="option"]').first().click() //coaching expertise
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCNa"]').click() //coachname
+    cy.iframe().find('mat-option[role="option"]').first().click()
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTCDesc"]').type('this is test') //description
+ 
+    //otj
+    cy.iframe().find('#OTJ-tab').click()
+    cy.wait(200)
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTOTDe"]').type('otj test')
+   
+ 
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click() //draft
+   
+ 
+})
+ 
+ 
+// //3.entering details for existing record
+When('ReEnter details',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(2).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    cy.wait(200)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click()
+})
+Then('Validate Error in Competency',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Warning');
+        })
+        cy.get('.close').click()
+    })
+})
+ 
+ 
+ 
+ 
+// //4.deleting submitted competency
+ 
+When('Delete Competency',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('mat-icon[role="img"]').eq(0).click()
+    })
+    // cy.iframe().find('button[value="DeleteCompetency"]').click()
+    cy.iframe().find('mat-icon[role="img"]').last().click() //exit delete button
+   
+})
+ 
+Then('Capture response of Deletion',()=>{
+    cy.wait(200)
+    cy.iframe().find('button[value="DeleteCompetency"]').click()
+    cy.iframe().find('mat-dialog-actions[class="mat-dialog-actions"] > div > div > button').click() //delete button
+})
+ 
+ 
+// //5.submit with empty coaching
+ 
+ 
+When('Enter details with empty coaching',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+     cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(2).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio
+    cy.wait(200)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PFEmpR"]').click() // rating
+    cy.iframe().find('mat-option[role="option"]').eq(0).click() //emp rating
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').clear()
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').type('20')
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('testttt')
+    cy.iframe().find('#training-tab').click()
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDTRNG"]').click() //add training
+    cy.wait(500)
+    cy.iframe().find('#training > div > div.ng-star-inserted > div.ng-star-inserted > div.row.pt-3 > div.col-md-6.text-right > span > i')
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTaTr"]').click()
+    cy.iframe().find('mat-option[role="option"]').eq(0).click()
+ 
+   
+    //cy.iframe().find('div[aria-labelledby="mat-form-field-label-27"] > mat-option').click()
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTTrMil"]')
+    .type('learning angular')
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDTRNG"]').click()//second training
+    cy.iframe().find('i[class="fa fa-trash"]').last().click() //close second training
+ 
+    //coaching
+    cy.iframe().find('#coaching-tab').click()
+    cy.wait(1000)
+    cy.iframe().find('aescheckbox[mlmkey="PACE_COMA_NOTSURE"]').eq(1).click() //checkbox for not opting training
+ 
+    //otj
+    cy.iframe().find('#OTJ-tab').click()
+    cy.wait(200)
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTOTDe"]').type('otj test')
+   
+ 
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click() //draft
+   
+ 
+})
+ 
+// //6.edit competency
+ 
+When('Edit Competency',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('mat-icon[role="img"]').eq(0).click()
+    })
+    cy.iframe().find('mat-icon[role="img"]').last().click() //exit delete button
+    cy.iframe().find('button[value="EditCompetency"]').click()
+    cy.wait(500)
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').within(()=>{
+        cy.get('mat-icon[role="img"]').click()
+    })
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('Edited')
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click()
+})
+ 
+//7.delete edited competency
+When('Delete Competency',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('mat-icon[role="img"]').click()
+    })
+    cy.iframe().find('button[value="DeleteCompetency"]').click()
+    cy.iframe().find('mat-icon[role="img"]').last().click() //exit delete button
+   
+})
+ 
+Then('Capture response of Deletion',()=>{
+    cy.wait(200)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('mat-icon[role="img"]').click()
+    })
+    cy.iframe().find('button[value="DeleteCompetency"]').click()
+    cy.iframe().find('mat-dialog-actions[class="mat-dialog-actions"] > div > div > button').click() //delete button
+})
+ 
+ 
+ 
+ 
+// //8.valid case
+ 
+When('Enter details',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDHEAD"]').click()
+    cy.wait(1000)
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMA_TBLCATE"]').click() //compentency type
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //option type
+    cy.iframe().find('tr[role="row"]').eq(2).within(()=>{
+        cy.get('aesradiobuttonlist[id="CompetencyCheck"]').click()
+    }) //radio
+    cy.wait(200)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_Next"]').click()
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PFEmpR"]').click() // rating
+    cy.iframe().find('mat-option[role="option"]').eq(0).click() //emp rating
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').clear()
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').type('20')
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('testttt')
+    cy.iframe().find('#training-tab').click()
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDTRNG"]').click() //add training
+    cy.wait(500)
+    cy.iframe().find('#training > div > div.ng-star-inserted > div.ng-star-inserted > div.row.pt-3 > div.col-md-6.text-right > span > i')
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTaTr"]').click()
+    cy.iframe().find('mat-option[role="option"]').eq(0).click()
+ 
+   
+    //cy.iframe().find('div[aria-labelledby="mat-form-field-label-27"] > mat-option').click()
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTTrMil"]')
+    .type('learning angular')
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDTRNG"]').click()//second training
+    cy.iframe().find('i[class="fa fa-trash"]').last().click() //close second training
+ 
+    //coaching
+    cy.iframe().find('#coaching-tab').click()
+    cy.iframe().find('aeslabel[mlmkey="PACE_COMA_ADDCoACH"]').click()
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCoEx"]').click()
+    cy.iframe().find('mat-option[role="option"]').first().click() //coaching expertise
+    cy.iframe().find('aesdropdownlist[mlmkey="PACE_COMY_PTCCNa"]').click() //coachname
+    cy.iframe().find('mat-option[role="option"]').first().click()
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTCDesc"]').type('this is test') //description
+ 
+    //otj
+    cy.iframe().find('#OTJ-tab').click()
+    cy.wait(200)
+    cy.iframe().find('aestextbox[mlmkey="PACE_COMY_PTOTDe"]').type('otj test')
+   
+ 
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click() //draft
+   
+ 
+})
+ 
+When('Send Competency for approval when weightage not equal to 100%',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMY_SUBMIT"]').click()
+    cy.iframe().find('[formcontrolname="dynamicField"]').within(()=>{
+        cy.get('aestextbox').eq(0).type('Test')
+        cy.get('aestextbox').eq(2).type('Test 2')
+       
+    })
+    cy.iframe().find('[mlmkey="PACE_COMY_SUBMIT"]').eq(1).click()
+})
+Then('Validate Warning required 100% for approval',()=>{
+    cy.wait(100)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.wait(500)
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Warning');
+        })
+        cy.get('[class="message"]').should('contain.text', ' Competency weightage should be equal to 100%');
+        cy.get('.close').click()
+    })
+})
+ 
+ 
+// // 10.edit competency weightage
+ 
+When('Edit Competency weightage',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('mat-icon[role="img"]').eq(0).click()
+    })
+    cy.iframe().find('mat-icon[role="img"]').last().click() //exit delete button
+    cy.iframe().find('button[value="EditCompetency"]').click()
+    
+    cy.wait(500)
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').within(()=>{
+        cy.get('mat-icon[role="img"]').click()
+    })
+    cy.wait(200)
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').clear()
+    cy.iframe().find('aestextbox[formcontrolname="Weightage"]').type('60')
+    cy.iframe().find('aestextbox[formcontrolname="Comments"]').type('Edited')
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMA_DRAFT"]').click()
+})
+ 
+//11.send competency for approval
+ 
+When('Send Competency for approval Valid case',()=>{
+    cy.get('input[id="mat-input-3"]').type('Competency')
+    cy.get('mat-option[role="option"]').eq(0).click()
+    cy.frameLoaded('#commonFormRender')
+    cy.iframe().find('aesdropdownlist[valuefield="CALENDAR_ID"]').click()
+    cy.iframe().xpath('//*[@id="mat-option-2"]').click()
+    cy.wait(500)
+    cy.iframe().find('aesbutton[mlmkey="PACE_COMY_SUBMIT"]').click()
+    cy.iframe().find('[formcontrolname="dynamicField"]').within(()=>{
+        cy.get('aestextbox').eq(0).type('Test')
+        cy.get('aestextbox').eq(2).type('Test 2')
+       
+    })
+    cy.iframe().find('[mlmkey="PACE_COMY_SUBMIT"]').eq(1).click()
+})
+
+Given('Open Adrenalin Portal and Login with data from {string}',(userDetails)=>{
+    
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user2.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user2.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user2.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+})
+When('Tracking Goals',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('[valuefield="CALENDAR_ID"]').click() //calender change
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //choose calender
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('td[role="cell"]').last().within(()=>{
+            cy.get('span').eq(0).click()
+        })
+    })
+    cy.iframe().find('aesdropdownlist[valuefield="STATUS_ID"]').click() //status
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() ///good
+    cy.iframe().find('input[placeholder="Send a performance review message"]').type('test') //send message for status update
+    cy.iframe().find('span[class="chat-send"]').click('left')
+    cy.wait(1000)
+     //send for approval
+})
+Then('Validate Success in Review',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Success');
+        })
+        cy.get('.close').click()
+    })
+})
+//track goals with file attachment
+When('Tracking Goals with file upload',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('[valuefield="CALENDAR_ID"]').click() //calender change
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //choose calender
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('td[role="cell"]').last().within(()=>{
+            cy.get('span').eq(0).click()
+        })
+    })
+    cy.iframe().find('aesdropdownlist[valuefield="STATUS_ID"]').click() //status
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() ///good
+    cy.iframe().find('input[placeholder="Send a performance review message"]').type('test') //send message for status update
+    cy.iframe().find('aesfileupload[formcode="PACE_00_00_02"]').within(()=>{
+        cy.get('input[type="file"]').selectFile('cypress/fixtures/training.png',{ force: true })
+    }) //file upload
+    cy.iframe().find('span[class="chat-send"]').click()
+    cy.wait(1000)
+     //send for approval
+})
+ 
+//track goals with flag
+
+//track goals with file attachment
+When('Tracking Goals with flag',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('[valuefield="CALENDAR_ID"]').click() //calender change
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //choose calender
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('td[role="cell"]').last().within(()=>{
+            cy.get('span').eq(0).click()
+        })
+    })
+    cy.iframe().find('aesdropdownlist[valuefield="STATUS_ID"]').click() //status
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() ///good
+    cy.iframe().find('input[placeholder="Send a performance review message"]').type('test') //send message for status update
+    cy.iframe().xpath('//*[@id="mat-tab-content-0-0"]/div/app-performance-tab/div[1]/app-chat-window/div/div/div/div[3]/div/mat-form-field/div/div[1]/div[1]/div/i').click()
+    cy.iframe().find('span[class="chat-send"]').click()
+    cy.wait(1000)
+     //send for approval
+})
+ 
+ 
+//track goals and send without message
+When('Send without message',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('[valuefield="CALENDAR_ID"]').click() //calender change
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() //choose calender
+    cy.wait(500)
+    cy.iframe().find('tbody[role="rowgroup"]').last().within(()=>{
+        cy.get('td[role="cell"]').last().within(()=>{
+            cy.get('span').eq(0).click()
+        })
+    })
+    cy.iframe().find('aesdropdownlist[valuefield="STATUS_ID"]').click() //status
+    cy.iframe().find('mat-option[role="option"]').eq(1).click() ///good
+    //cy.iframe().find('i[aria-describedby="cdk-describedby-message-55"]').click()
+    cy.iframe().find('span[class="chat-send"]').click()
+    cy.wait(1000)
+     //send for approval
+})
+Then('Validate Warning in for Empty message',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Warning');
+        })
+        cy.get('.close').click()
+    })
+})
+Given('Open Adrenalin Portal and Login with datas from {string}',(userDetails)=>{
+    
+    cy.viewport('macbook-16')  
+    cy.fixture(userDetails).as('users')
+    cy.get('@users').then((users)=>{
+        cy.visit(users.user3.url)
+        cy.get('#loginpanel input[type="text"]').eq(0).type(users.user3.userId,{ delay: 100 })
+        cy.get('#loginpanel input[type="password"]').type(users.user3.password,{ delay: 100 })
+        cy.get('#loginpanel input[type="text"]').eq(1).type(users.user1.company,{ delay: 100 })
+        cy.get('#loginpanel').find('button').focus().type('{enter}');
+    })
+    cy.wait(4000)
+    cy.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes("Cannot read properties of null (reading 'className')") ||
+            err.message.includes("Cannot set properties of null")) {
+            return false;
+        }
+    });
+})
+ 
+ // appraisal Invalid rejection
+When('Invalid higher rating case',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_GLS_ComPerfRevw"]').click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('100')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('div[role="region"]').eq(0).click().within(()=>{
+        cy.get('mat-list-option').eq(1).click()
+    }) // navigate to second goal
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('100')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('aesfileupload[mlmkey="PACE_GLS_FileAtch"]').within(()=>{
+        cy.get('input[type="file"]').selectFile('cypress/fixtures/training.png',{ force: true })
+    }) //file upload
+    cy.iframe().find('aesbutton[mlmkey="PACE_RVWA_DR"]').click() //send for draft
+   
+   
+})
+ 
+Then('Validate Warning in Review',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Warning');
+        })
+        cy.get('.close').click()
+    })
+})
+ 
+ 
+// appraisal approval and rejection
+When('Approval Draft Empty case',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_GLS_ComPerfRevw"]').click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('100')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+ 
+    cy.iframe().find('aesbutton[mlmkey="PACE_RVW_sendapp"]').click() //send for approval
+ 
+})
+ 
+ 
+//apraisal draft
+When('Appraisal Approval Draft',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_GLS_ComPerfRevw"]').click()
+    cy.iframe().find('mat-icon[role="img"]').eq(0).click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('10')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('div[role="region"]').eq(0).click().within(()=>{
+        cy.get('mat-list-option').eq(1).click()
+    }) // navigate to second goal
+    cy.iframe().find('mat-icon[role="img"]').eq(0).click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('10')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('aesfileupload[mlmkey="PACE_GLS_FileAtch"]').within(()=>{
+        cy.get('input[type="file"]').selectFile('cypress/fixtures/training.png',{ force: true })
+    }) //file upload
+    cy.iframe().find('aesbutton[mlmkey="PACE_RVWA_DR"]').click() //send for draft
+   
+})
+Then('Validate Success in Appraisal',()=>{
+    cy.wait(500)
+    cy.iframe().find('aestoaster[class="ng-star-inserted"]').within(()=>{
+        cy.get('[class="tittle"]').then(()=>{
+            cy.get('span').should('contain.text', 'Success');
+        })
+        cy.get('.close').click()
+    })
+})
+ 
+ 
+//send for approval
+When('Send Appraisal for Approval',()=>{
+    cy.get('input[id="mat-input-3"]').type('Goals')
+    cy.get('[class="list-inline-items srch-item"]').first().click()
+    cy.frameLoaded('#commonFormRender')
+    cy.wait(500)
+    cy.iframe().find('aeslabel[mlmkey="PACE_GLS_ComPerfRevw"]').click()
+    cy.iframe().find('mat-icon[role="img"]').eq(0).click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('10')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('div[role="region"]').eq(0).click().within(()=>{
+        cy.get('mat-list-option').eq(1).click()
+    }) // navigate to second goal
+    cy.iframe().find('mat-icon[role="img"]').eq(0).click()
+    cy.iframe().find('aestextbox[formcontrolname="PERF_REVIEW_EMPLOYEE_RATING"]').type('10')
+    cy.iframe().find('aestextbox[formcontrolname="EMPLOYEE_COMMENT"]').type('test')
+    cy.iframe().find('aesfileupload[mlmkey="PACE_GLS_FileAtch"]').within(()=>{
+        cy.get('input[type="file"]').selectFile('cypress/fixtures/training.png',{ force: true })
+    }) //file upload
+    cy.iframe().find('aesbutton[mlmkey="PACE_RVW_sendapp"]').click() //send for approval
+    //test
+})
+
+
+
+
+
+
+
+
+
+userDetails.json
+{
+    "user1":{
+        "userId": "aes1000",
+        "password": "adnet9i",
+        "company" :"devmax",
+        "url":"http://peapp02:82/Login/#/"
+    },
+    "user2":{
+        "userId": "aes1000",
+        "password": "adnet9i",
+        "company" :"devmax",
+        "url":"http://peapp02:82/Login/#/"
+    }
+    , "user3":{
+        "userId": "ASD1210",
+        "password": "adnet9i",
+        "company" :"devmax",
+        "url":"http://peapp02:82/Login/#/"
+    }
+ 
+}

@@ -1,0 +1,269 @@
+{
+    "Login_Data": {
+      "userId": "aes1000",
+      "password": "adnet9i",
+      "company": "devmax",
+      "url": "http://peapp02:82/Login/#/"
+    },
+    "Adrenalin_Forms": [
+        {
+            "name": "Loan Scheduler"
+            },{
+                "name":"Car Lease Update"
+            },{
+                "name":"Asset Buyback"
+            },{
+                "name":"Asset categories"
+            },{
+                "name":"BRE Reversal"
+            },{
+                "name":"CRS Update Form"
+            },{
+                "name":"Claims Eligibility Setup"
+            },{
+                "name":"BRE Employee Eligibility Setup"
+            },{
+                "name":"BRE FBT Master"
+            },{
+                "name":"TEC Employee Self Service"
+            },{
+                "name":"Holiday Master-iReporter"
+            },{
+                "name":"Time and Attendance Analysis"
+            },{
+                "name":"Conference Booking Admin"
+            },{
+                "name":"Conference Room Booking"
+            },{
+                "name":"Conference Room Master"
+            },{
+                "name":"Conference Room Master"
+            },{
+                "name":"People Directory"
+            },{
+                "name":"Components Master"
+            },{
+                "name":"Compensation Calendar"
+            },{
+                "name":"Change Secure Form Access Password"
+            },{
+                "name":"Pre-planning process"
+            },{
+                "name":"Bonus Team Factor Setup"
+            },{
+                "name":"SMILE Redemption Settings History"
+            },{
+                "name":"BMU Blend Setup"
+            },{
+                "name":"Expat Home Pay Revision"
+            },{
+                "name":"Hardship Allowance"
+            },{
+                "name":"State Master"
+            },{
+                "name":"Compensation Tracker"
+            },{
+                "name":"Compensation Tracker History"
+            },{
+                "name":"Components Eligibility Setup"
+            },{
+                "name":"FBP configuration"
+            },{
+                "name":"Format Master"
+            },{
+                "name":"BUSINESS CARD REQUEST TRACKER"
+            },{
+                "name":"FS360 Rating Scale Definition"
+            },{
+                "name":"Feed Back Template Creation"
+            },{
+                "name":"Template Mapping and Feedback Initiation"
+            },{
+                "name":"Evaluation Request"
+            },{
+                "name":"360 Assessment"
+            },{
+                "name":"Feedback Self Summary"
+            },{
+                "name":"Feedback Summary View"
+            },{
+                "name":"Feedback Summary"
+            },{
+                "name":"Feedback Owner Summary"
+            },{
+                "name":"Owner Evaluation Request"
+            },{
+                "name":"Rating Summary Report"
+            },{
+                "name":"Communication"
+            },{
+                "name":"Grade wise Notice days update"
+            },{
+                "name":"Leave Additional Configuration"
+            },{
+                "name":"Company Survey"
+            },{
+                "name":"Company Announcement"
+            },{
+                "name":"Pending Benefit Approval"
+            },{
+                "name":"Insurance Details"
+            },{
+                "name":"Delete Reports"
+            },
+            {
+                "name": "Initiate query"
+            },{
+                "name": "Survey Master"
+            },{
+                "name": "Asset Update"
+            },
+            {
+                "name": "Activity owner approval"
+                },
+           
+            {
+                "name": "Reassign reportees"
+                },
+            {
+                "name": "Leave credit configuration"
+                },
+            {
+                "name": "Leave balance adjustment"
+                },
+            {
+                "name": "Leave configuration"
+                },{
+                "name": "Exit interview approval"
+                }, {
+                "name": "Help desk master"
+                },
+            {
+                "name": "Head count analysis"
+                },
+                {
+                    "name": "Compensation history"
+                    },{
+                        "name": "Generate appointment letter"
+                        },  {
+                        "name": "Functional profile"
+                        },
+                        {
+                            "name": "CTC details"
+                            }, {
+                        "name": "Compensation plan"
+                        }, {
+                            "name": "Budget setup details"
+                            }, {
+                                "name": "Cost analysis"
+                                },{
+            "name": "Component master"
+            },{
+                            "name": "Business card request status"
+                            },{
+            "name": "Asset request"
+            },{
+                "name": "Claims requested"
+                },{
+                "name": "Send SMS"
+                },{
+                "name": "Business card request status"
+                },{
+                "name": "Cost Centers"
+                },{
+                "name": "Employee movement configuration"
+                },{
+                "name": "Employee details report"
+                }, {
+                "name": "Formula manager"
+                },  {
+                "name": "Activity template mapping"
+                },{
+                "name": "Reassign reportees"
+                }, {
+            "name": "Questionnaire"
+        }  , {
+            "name": "iReporter Designer"
+        }, {
+            "name": "Indian Statutory Reports"
+        }  ,{
+            "name": "Expat Number Generation"
+        },{
+            "name": "EXPAT Data Configuration"
+        }     
+    ],
+    "Adrenalin_Forms1": [
+        {
+            "name": "Compensation Template",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "div.mat-tab-label-content",
+                "containsText": "Compensation template"
+            }
+        },{
+            "name": "People search configuration",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "div.mat-tab-label-content",
+                "containsText": "People search configuration"
+            }
+        },{
+            "name": "360 Degree",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "td[align='center'][valign='middle'] > h2.style2",
+                "containsText": "360 Degree"
+            }
+        },{
+            "name": "Compensation Guidelines",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "td.mat-cell",
+                "containsText": "Compensation Guidelines"
+            }
+        },{
+            "name": "Increment letter & data sync",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "tr.mat-row:contains('Increment letter & data sync')",
+                "containsText": "Increment letter & data sync"
+            }
+        },{
+            "name": "Factor-wise bonus setup",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "tr.mat-row:contains('Factor-wise bonus setup')",
+                "containsText": "Factor-wise bonus setup"
+            }
+        },{
+            "name": "Salary range setup",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "tr.mat-row:contains('Salary range setup')",
+                "containsText": "Salary range setup"
+            }
+        },{
+            "name": "Freeze Module",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "div.mat-tab-label-content",
+                "containsText": "Freeze Module"
+            }
+        },{
+            "name": "Answer query",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "aeslabel[mlmkey='HLDK_ITQY_hlpover']",
+                "containsText": "Helpdesk requests - overview"
+            }
+        },{
+            "name": "Dynamic claim creation",
+            "iframeSelector": "#commonFormRender",
+            "tabSelector": {
+                "selector": "aeslabel[mlmkey='CLRM_DYCC_crTitle']",
+                "containsText": "Dynamic claim creation"
+            }
+        }
+    ]
+  }
+  

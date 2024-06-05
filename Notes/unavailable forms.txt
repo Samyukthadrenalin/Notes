@@ -1,0 +1,189 @@
+ {
+        "name":"Loan Scheduler"
+        },
+        {
+        "name":"Car Lease Update"
+        },
+        {
+        "name":"Asset Buyback"
+        },
+        {
+        "name":"Asset Category Configuration"
+        },
+        {
+        "name":"Asset Update"
+        },
+        {
+        "name":"BRE Reversal"
+        },
+        {
+        "name":"CRS Update Form"
+        },
+        {
+        "name":"Claims Eligibility Setup"
+        },
+        {
+        "name":"BRE Employee Eligibility Setup"
+        },
+        {
+        "name":"BRE FBT Master"
+        },
+        {
+        "name":"TEC Employee Self Service"
+        },
+        {
+        "name":"Holiday Master-iReporter"
+        },
+        {
+        "name":"Components Master"
+        },
+        {
+        "name":"Change Secure Form Access Password"
+        },
+        {
+        "name":"Time and Attendance Analysis"
+        },
+        {
+        "name":"Compensation Guidelines"
+        },
+        {
+        "name":"Conference Booking Admin"
+        },
+        {
+        "name":"Conference Room Booking"
+        },
+        {
+        "name":"Conference Room Master"
+        },
+        {
+        "name":"People Directory"
+        },
+        {
+        "name":"Compensation Calendar"
+        },
+        {
+        "name":"Pre-planning process"
+        },
+        {
+        "name":"Increment Letter Creation"
+        },
+        {
+        "name":"Bonus Team Factor Setup"
+        },
+        {
+        "name":"SMILE Redemption Settings History"
+        },
+        {
+        "name":"Cost Center Master"
+        },
+        {
+        "name":"Employee Movement-iReporter"
+        },
+        {
+        "name":"BMU Blend Setup"
+        },
+        {
+        "name":"Compensation Details"
+        },
+        {
+        "name":"Expat Home Pay Revision"
+        },
+        {
+        "name":"Hardship Allowance"
+        },
+        {
+        "name":"State Master"
+        },
+        {
+        "name":"Compensation Tracker"
+        },
+        {
+        "name":"Compensation Tracker History"
+        },
+        {
+        "name":"Expat Number Generation"
+        },
+        {
+        "name":"EXPAT Data Configuration"
+        },
+        {
+        "name":"Components Eligibility Setup"
+        },
+        {
+        "name":"Format Master"
+        },
+        {
+        "name":"FS360 Rating Scale Definition"
+        },
+        {
+        "name":"Feed Back Template Creation"
+        },
+        {
+        "name":"Template Mapping and Feedback Initiation"
+        },
+        {
+        "name":"Category"
+        },
+        {
+        "name":"Evaluation Request"
+        },
+        {
+        "name":"360 Assessment"
+        },
+        {
+        "name":"Feedback Self Summary"
+        },
+        {
+        "name":"Feedback Summary View"
+        },
+        {
+        "name":"Feedback Summary"
+        },
+        {
+        "name":"Feedback Owner Summary"
+        },
+        {
+        "name":"Owner Evaluation Request"
+        },
+        {
+        "name":"360 Degree Feedback Chart report"
+        },
+        {
+        "name":"Rating Summary Report"
+        },
+        {
+        "name":"Communication"
+        },
+        {
+        "name":"Grade wise Notice days update"
+        },
+        {
+        "name":"Head Count Analysis"
+        },
+        {
+        "name":"Leave Additional Configuration"
+        },
+        {
+        "name":"Company Survey"
+        },
+        {
+        "name":"Company Announcement"
+        },
+        {
+        "name":"Benefit Master"
+        },
+        {
+        "name":"Pending Benefit Approval"
+        },
+        {
+        "name":"Indian Statutory Reports"
+        },
+        {
+        "name":"Insurance Details"
+        },
+        {
+        "name":"iReporter Designer"
+        },
+        {
+        "name":"Delete Reports"
+        }

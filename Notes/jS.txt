@@ -1,0 +1,215 @@
+JS- object based lan
+objerct based lan-will not support inheritance,dynmaic polymorphism
+and support dynamic memory allocation
+Interpreted Programming Language
+Browsers provide interpreter
+Client side script to handle client side interactions and validtions
+js supports reusability,code seperation and dynamic memory allocation
+
+js bom-browser object model provides collection of objects to handle a browser
+objects->(window,history,location,navigator,document)
+dom-document object model provides collection of element used to handle document elements
+
+Integrating js into webpage
+
+html used to present DOM
+Js used to manipulate dom
+js is integrated into web page by using three methods
+1.inline
+ex: <p>Submit</p>
+        <input type="submit" value="submit" onclick="window.print()">
+window.print is js function
+2.embed
+ex: <p>Submit</p>
+        <input type="submit" value="submit" onclick="printpage()">
+<script>
+        function printpage(){
+            window.print();
+        }
+    </script>
+
+3.external file
+<scrpt src="It.js"></script>
+
+
+BOM Hierachy - which uses an array reference method
+REFER By username - every html element can have reference name defiend by using name attribute
+REFER By Id-It requires document.getElementById() function
+REFER BY Tag-document.getElementByTag()
+REFER BY Class-document.getElementByClassName()
+common name - REFER BY Name-document.getElementByName()
+
+Javascript output properties and methods
+
+1.alert
+2.confirm
+3.document.write
+4.innerhtml
+5.innERtEXT
+6.cONSOLE.LOG
+
+
+Html form input elements
+
+1.pROMPT - pops up input box through browser
+
+JS VARIABLES are declared using keywords
+1.let - used to define block scope variable 
+2.var - used to define function scope variable accesible only within function
+variables declared using var and let will allow shadowing ,which means defining same name identifier with different value
+3.const - will not allow shadowing(block scope)
+
+js variable supports hoisting.process used by 
+translator where it will process the code 
+declaration followed by code rendering 
+irrespective of sequential order of statements.
+ex: fun f1(){
+x=10;
+document.write("x:"+x)
+var x;
+}
+we can declare the variable anywhere inside the function even after assigning value that is called as hoisting
+
+global scope for variable is defined by declaring it outside the function within script tag
+Global scope for variable can be defined within function using the keyword "window".
+
+variables must start with alphabet or underscore.
+
+Javascript DataTypes
+-------------------------------------------
+javascript references are implicitly typed their datatype will be determined according to value
+
+1.primitive type datatype
+
+stored in memory stack,last in fiirst out,single memory spcae is allocated to the value
+they are created at compile time.stored in stack and known as value types.
+js primitive value types are number,string,boolean,null,undefined
+negative number - signed integer
+positive number - unsigned integer
+we can also store exponent value.
+var x =2e3
+
+string representatiion starting with number can be converted into a number in js by parseInt(),parseFloat() methods.
+ex:var a="10ab"
+var b="20"
+var c=parseInt(a)+parseInt(b)
+output:30
+var a ="ab10"//invalid (it should start with number to use above methods)
+
+single quote must be used for substring
+ex:onclick="alert('hello')"
+
+string can use special characters but compiler cannot print certain type of characters.it requires escape sequence characters.
+escape sequence         prints
+\\                       \
+\*                        *
+
+ null type is a primtive type which specifies the
+references is not createed dynamically.
+keyword null is returned when reference is not defined
+The keyword null is used to verify whether reference is defined or not.
+ex: var name=" ";
+name==null;//true or false
+
+undefined type:
+if value is not defined to any refernce then it will return undefined.
+ex:var name=" ";//string
+var name=10;//number
+var name;//undefined
+The keyword undefined is used to verify whether a value is defined for any refernce.
+
+2.Non primitive Data types
+STORED in heap memory
+specifies multiple locations to store values.
+do not have any fixed values.
+value varies according to browser memory
+js non primitive types:
+1.Array
+2.Object
+3.Regular Expression
+
+
+1.Array- js arraysize can be changed dynamically
+collectionof various types of values
+arraytype represents stack,queue,hashtable or enumeration
+Array types are defined by using "[]" or Array() constructor
+ex: var names=[];
+or var name= new Array();
+2.oBJECT
+Represents a class in oops
+defines a prototype for creating an instance.
+Collection of members like properties,methods,constructors
+Encapsulate all the members in {}
+
+3.Regular Expression
+used to validate the format of value
+group of meta characters and quantifiers enclosed in"\ \"
+
+verified with input value by matching the function "match()".It returns boolean true if the value matches regular expression
+Metacharacters and description
+------------------------------------
+[a,d,s] specified characters allowed
+[^a,d,s] exclude specified characters
+[!@#$%&] all special characters allowed
+(?=*[A-Z]) atleast 1 upper case letter allowed
+\^ starts with
+$ ends with
+
+Quantifier and descriptions
+
+{4} input valuse should be exactly 4 characters
+{4,10} min 4 max 10 characters as input value
+{4,} min 4 max any
+
+
+Js Operators
+-------------------------------------------
+js expressions and description
+
+string expression returns strng
+boolean expression returns a booleam value
+arithmetic expression  returns a number
+null  returns null
+
+Arithmetic operators
+Comparison(Relational operators)
+Bitwise operators
+Logical operators
+Assignment operators
+Special operators
+
+Relational operators
+
+5===5 Equal value and same type
+special operators
+
+. - Property access
+delete - delete array elements
+in - Propert exists
+instance of - returns true if an object is of a specified object type
+new - new object
+typeof - determines the data type of a variable
+void - evaluates an expression without returning a result
+
+Javascript builtin objects
+
+used to handle various interactions
+object comprises of properties and methods that are accessible with refernce of object
+
+1.Math
+2.Date
+3.String
+4.Array
+
+Javascript browser objects -provides several browser objects that handle various clientinteractions and also to manipulate the elements
+in BOM Hierachy
+
+browser objects
+1.window,location,navigator,history,document,screen
+we can get client details using location object
+------------------------------------------------
+Javascript Events
+
+event handler of js provides access to the objevt properties by using the keyword "this"
+
+ 

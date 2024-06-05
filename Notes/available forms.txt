@@ -1,0 +1,115 @@
+{
+        "name":"Asset Request"
+        },
+        {
+        "name":"Claims requested"
+        },
+        {
+        "name":"Send SMS"
+        },
+        {
+        "name":"Business Card Status Update"
+        },
+        {
+        "name":"Business Card Request Tracker"
+        },
+        {
+        "name":"People Search Configuration"
+        },
+        {
+        "name":"Cost Analysis"
+        },
+        {
+        "name":"Bonus Setup"
+        },
+        {
+        "name":"Salary Range"
+        },
+        {
+        "name":"Budget Setup"
+        },
+        {
+        "name":"Bonus Weightage Setup"
+        },
+        {
+        "name":"Compensation plan"
+        },
+        {
+        "name":"CTC Details"
+        },
+        {
+        "name":"Functional profile"
+        },
+        {
+        "name":"Generate Appointment Letter"
+        },
+        {
+        "name":"Compensation Template"
+        },
+        {
+        "name":"Compensation History"
+        },
+        {
+        "name":"Employee details report"
+        },
+        {
+        "name":"FBP Configuration"
+        },
+        {
+        "name":"Dynamic Claim Creation"
+        },
+        {
+        "name":"Formula Manager"
+        },
+        {
+        "name":"Freeze Module"
+        },
+        {
+        "name":"Questionnaire"
+        },
+        {
+        "name":"Answer Query"
+        },
+        {
+        "name":"Help Desk Master"
+        },
+        {
+        "name":"Initiate Query"
+        },
+        {
+        "name":"Leave Configuration"
+        },
+        {
+        "name":"Leave Balance Adjustment"
+        },
+        {
+        "name":"Leave Credit Configuration"
+        },
+        {
+        "name":"Reassign Reportees"
+        },
+        {
+        "name":"Exit Interview Feedback - View"
+        },
+        {
+        "name":"Activity template mapping"
+        },
+        {
+        "name":"Engagement Survey Master"
+        },
+        {
+        "name":"Exit Interview Approval"
+        },
+        {
+        "name":"Activity Owner Approval"
+        },
+        {
+        "name":"Data Audit"
+        },
+        {
+        "name":"iReporter Viewer"
+        }
+
+
+organization structure-buisness unit
+manager role player form-role player access
